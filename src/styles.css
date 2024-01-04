@@ -1,1 +1,206 @@
 /* You can add global styles to this file, and also import other style files */
+.brand-link {
+  display: block;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  padding: 0.8125rem 0.5rem;
+  transition: width .3s ease-in-out;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.form-control-sidebar {
+  background-color: #3f474e;
+  border: 1px solid #56606a;
+  color: #fff;
+}
+.carousel-item {
+  transition: unset !important;
+}
+
+
+.toast-container{
+position: fixed !important;
+top: 10px !important;
+right: 10px !important;
+}
+.toast-container .toast-success{
+padding:10px;
+background-color: #b7e4c7 !important;
+color: #2d6a4f !important;
+}
+.viewIcon{
+height: 25px;
+}
+.LoadIcon,
+.approveIcon,
+.saveIcon,
+.editIcon,
+.menuIcon,
+.searchIcon{
+height: 22px;
+}
+.dropdownIcon{
+height: 20px;
+}
+.expandIcon{
+height: 35px;
+}
+.groupingProductsIcon{
+height: 28px;
+margin-right: 10px;
+}
+.buttonIcon{
+background: none;
+border:none;
+}
+.pointerHand{
+cursor: pointer;
+}
+.pointerHand .disabled{
+cursor: not-allowed !important;
+}
+.shortingButton{
+height: 100%;
+border: 0.5px solid #ccc;
+cursor: pointer;
+}
+.shortingButton .arrowIconForShorting{
+height: 9px;
+}
+.button-blue, .button-blue:hover, .nav-link.active, .ngx-pagination .current {
+background-color: #219ebc !important;
+color: #fefae0 !important;
+border: none !important;
+}
+
+.button-red, .button-red:hover {
+background-color: #f87575 !important;
+color: #fefae0 !important;
+border: none !important;
+}
+
+.h1-heading{
+color: #495057;
+font-size: 1.6rem !important;
+}
+.th-color {
+color: #495057 !important;
+}
+.colorSelect{
+color: #6c757d !important;
+}
+.text-blue{
+color: #219ebc !important;
+}
+.ngb-dp-overlay {
+position: absolute;
+z-index: 1000;
+}
+
+.header__logo-image {
+display: block;
+color: #3192d0 !important;
+text-decoration: none;
+margin-right: 1rem;
+font-size: 30px;
+}
+
+.header__logo-image span{
+font-weight: 700;
+margin-left: 10px;
+}
+.header__logo-image .menuIcon{
+height: 14px;
+}
+
+.brand-link .brand-image {
+float: left;
+line-height: 0;
+margin-left: 0.8rem;
+margin-right: 0.5rem;
+margin-top: 8px;
+max-height: 35px;
+width: auto;
+}
+.noWordWrap{
+white-space: nowrap;
+}
+
+.width100{
+width: 100px;
+}
+.width300{
+width: 300px;
+}
+.width150{
+width: 150px;
+}
+.sorting_icon::before {
+right: 1em;
+content: "↑";
+opacity: 0.3;
+}
+
+.sorting_icon::after {
+opacity: 0.3;
+right: 0.5em;
+content: "↓";
+}
+
+thead .sorting_desc.sorting_icon::before{
+  opacity: 1;
+}
+thead .sorting_asc.sorting_icon::after{
+opacity: 1;
+}
+.close-icon {
+border:1px solid transparent;
+background-color: transparent;
+display: inline-block;
+vertical-align: middle;
+outline: 0;
+cursor: pointer;
+}
+.close-icon:after {
+content: "X";
+  display: block;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  background-color: #FA9595;
+  z-index: 1;
+  right: 25px;
+  top: 8px;
+  bottom: 0;
+  margin: auto;
+  padding: 2px;
+text-align: center;
+color: white;
+font-weight: normal;
+font-size: 12px;
+box-shadow: 0 0 2px #E50F0F;
+cursor: pointer;
+}
+.sku-ul-list{
+list-style-type: none;
+border: 1px solid rgb(168, 166, 166);
+padding-left: 0px;
+position: absolute;
+top: 70px;
+width: 90%;
+background-color: white;
+z-index: 999;
+max-height: 50vh;
+overflow-y: auto;
+}
+
+.sku-ul-list li{
+border-bottom: 1px solid rgb(168, 166, 166);
+padding: 5px 10px;
+}
+.positionRelative{
+position: relative;
+}
+.handCursor{
+cursor: pointer;
+}
