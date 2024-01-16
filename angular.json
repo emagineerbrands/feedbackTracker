@@ -36,7 +36,7 @@
             ],
             "styles": [
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-              "node_modules/admin-lte/plugins/daterangepicker/daterangepicker.css",
+
               "node_modules/admin-lte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css",
               "node_modules/admin-lte/plugins/select2/css/select2.min.css",
               "node_modules/admin-lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css",
@@ -47,6 +47,7 @@
               "node_modules/admin-lte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css",
               "node_modules/admin-lte/dist/css/adminlte.min.css",
               "node_modules/admin-lte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css",
+              "node_modules/admin-lte/plugins/daterangepicker/daterangepicker.css",
               "node_modules/admin-lte/plugins/summernote/summernote-bs4.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"

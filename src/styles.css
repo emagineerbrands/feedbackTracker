@@ -1,4 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+.sidebar-mini.sidebar-collapse .main-sidebar, .sidebar-mini.sidebar-collapse .main-sidebar::before{
+  width: 5.6rem;
+}
+.sidebar-mini.sidebar-collapse .content-wrapper, .sidebar-mini.sidebar-collapse .main-footer, .sidebar-mini.sidebar-collapse .main-header{
+  margin-left: 5.6rem !important;
+}
+.navbar{
+  margin-bottom: 0px;
+}
+.main-header .nav-link{
+  height: unset;
+}
 .brand-link {
   display: block;
   font-size: 1.25rem;
@@ -17,7 +29,9 @@
   transition: unset !important;
 }
 
-
+.responsiveBody{
+  overflow-x: auto;
+}
 .toast-container{
 position: fixed !important;
 top: 10px !important;
@@ -203,4 +217,9 @@ position: relative;
 }
 .handCursor{
 cursor: pointer;
+}
+@media (min-width: 992px){
+  .sidebar-mini.sidebar-collapse.layout-fixed .brand-link {
+      width: 5.6rem;
+  }
 }

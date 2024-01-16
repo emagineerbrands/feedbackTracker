@@ -68,3 +68,9 @@
 .google-btn:active {
   background: #1669F2;
 }
+.fs-15, .fs-15 .fas{
+  font-size: 15px !important;
+}
+.dropdown-footer, .dropdown-header{
+  font-size: 1.1rem;
+}

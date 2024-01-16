@@ -48,6 +48,15 @@ export class AppComponent {
       if (valid) {
         const userData = {"email":mail, "name":user?.displayName};
         this.service.getUserAuthtication(userData).subscribe((data:any) =>{
+          const dashboardIndex = data[0].page_names.indexOf("Dashboard");
+
+          // If "Dashboard" is found and is not already at the beginning
+          if (dashboardIndex !== -1 && dashboardIndex !== 0) {
+            // Move the elements at the found index to the beginning
+            data[0].page_names.unshift(data[0].page_names.splice(dashboardIndex, 1)[0]);
+            data[0].page_links.unshift(data[0].page_links.splice(dashboardIndex, 1)[0]);
+            data[0].page_icons.unshift(data[0].page_icons.splice(dashboardIndex, 1)[0]);
+          }
           if(data.length != 0){
             this.authenticationDetails = {
               id: data[0].id,

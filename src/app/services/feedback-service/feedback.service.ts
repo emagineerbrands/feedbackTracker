@@ -153,4 +153,34 @@ export class FeedbackService {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.httpClient.post<any>(this.logtypefeedbackUrl+'/InactivateTicket', data, { headers });
   }
+
+  assigneeCountReport(data:any){
+    let params = ((data.fromDate !== '') && (data.toDate !== '')) ? 'start_date='+data.fromDate+'&end_date='+data.toDate : '';
+    return this.httpClient.get(this.logtypefeedbackUrl+"/AssigneeReport?"+params);
+  }
+
+  returnCountReport(data:any){
+    let params = ((data.fromDate !== '') && (data.toDate !== '')) ? 'start_date='+data.fromDate+'&end_date='+data.toDate : '';
+    return this.httpClient.get(this.logtypefeedbackUrl+"/ReturnCountReport?"+params);
+  }
+
+  sourceCountReport(data:any){
+    let params = ((data.fromDate !== '') && (data.toDate !== '')) ? 'start_date='+data.fromDate+'&end_date='+data.toDate : '';
+    return this.httpClient.get(this.logtypefeedbackUrl+"/SourceCountReport?"+params);
+  }
+  mioCountReport(data:any){
+    let params = ((data.fromDate !== '') && (data.toDate !== '')) ? 'start_date='+data.fromDate+'&end_date='+data.toDate : '';
+    return this.httpClient.get(this.logtypefeedbackUrl+"/MIOCountReport?"+params);
+  }
+
+  countryCountReport(data:any){
+    let params = ((data.fromDate !== '') && (data.toDate !== '')) ? 'start_date='+data.fromDate+'&end_date='+data.toDate : '';
+    return this.httpClient.get(this.logtypefeedbackUrl+"/CanadaCountReport?"+params);
+  }
+
+  complaintTypeCOuntReport(data:any){
+    let params = ((data.fromDate !== '') && (data.toDate !== '')) ? 'start_date='+data.fromDate+'&end_date='+data.toDate : '';
+    return this.httpClient.get(this.logtypefeedbackUrl+"/ComplaintTypeCountReport?"+params);
+  }
+
 }

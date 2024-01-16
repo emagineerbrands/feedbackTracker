@@ -50,10 +50,10 @@
          <ng-container *ngFor="let page of authenticationDetails.page_names; let pIndex = index">
 
 
-         <li class="nav-item" *ngIf="page !== 'Dashboard'"  >
+         <li class="nav-item fs-15"   >
            <a (click)="redirectPage(this.authenticationDetails.page_links[pIndex])"  class="nav-link ">
              <i class="{{ this.authenticationDetails.page_icons[pIndex] }}"></i>
-             <p>
+             <p class="ml-2">
                {{ page }}
              </p>
            </a>
