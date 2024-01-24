@@ -23,163 +23,221 @@
       </div>
       <div class="row">
         <div class="col-md-4">
+          <app-chart-table [chartOptions]="StackedbarChartOptions" [chartLegend]="true" [chartType]="'bar'" [chartData]="assigneeChartData" [chartTableData]="assigneeData" [chartLabels]="assigneeChartLabels" (valueToParent)="dateFromChild($event, 'Assignee')" [cardBackground]="cardBackgroundInfo" [cardTitle]="'Assignee'" [cardAliasName]="'assignee'"></app-chart-table>
+        </div>
+        <div class="col-md-3">
+          <app-chart-table [chartOptions]="pieChartOptions" [chartLegend]="true" [chartType]="'pie'" [chartData]="returnChartData" [chartLabels]="returnChartLabels" [chartTableData]="returnTableDataFormate" (valueToParent)="dateFromChild($event, 'Return')" [cardBackground]="cardBackgroundInfo" [cardTitle]="'Return'" [cardAliasName]="'return'"></app-chart-table>
+        </div>
+        <div class="col-md-5">
+          <app-chart-table [chartOptions]="StackedbarChartOptions" [chartLegend]="true" [chartType]="'bar'" [chartData]="sourceChartData" [chartLabels]="sourceChartLabels" [chartTableData]="sourceTableDataFormate" (valueToParent)="dateFromChild($event, 'Source')" [cardBackground]="cardBackgroundInfo" [cardTitle]="'Source'" [cardAliasName]="'source'"></app-chart-table>
+        </div>
+        <div class="col-md-3">
+          <app-chart-table [chartOptions]="StackedbarChartOptions" [chartLegend]="true" [chartType]="'bar'" [chartData]="mioChartData" [chartLabels]="mioChartLabels" [chartTableData]="mioTableDataFormate" (valueToParent)="dateFromChild($event, 'MIO')" [cardBackground]="cardBackgroundInfo" [cardTitle]="'MIO'" [cardAliasName]="'mio'" [canvaHeight]="300" ></app-chart-table>
+        </div>
+        <div class="col-md-3">
+          <app-chart-table [chartOptions]="StackedbarChartOptions" [chartLegend]="true" [chartType]="'bar'" [chartData]="countryChartData" [chartLabels]="countryChartLabels" [chartTableData]="countryTableDataFormate" (valueToParent)="dateFromChild($event, 'Country')" [cardBackground]="cardBackgroundInfo" [cardTitle]="'Country'" [cardAliasName]="'country'" [canvaHeight]="300" ></app-chart-table>
+        </div>
+
+
+
+        <div class="col-md-6">
           <div class="card card-info">
             <div class="card-header">
-              <h3 class="card-title">Assignee</h3>
+              <h3 class="card-title">Complaint Type</h3>
 
               <div class="card-tools">
-                <ul class="nav nav-pills ml-auto">
+                <ul class="nav nav-pills">
                   <li class="nav-item">
-                    <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Chart</a>
+                    <a class="nav-link active" href="#complaintType-chart" data-toggle="tab">Chart</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#sales-chart" data-toggle="tab">Table</a>
+                    <a class="nav-link" href="#complaintType-table" data-toggle="tab">Table</a>
                   </li>
                   <li class="nav-item">
-                    <button type="button" class="btn daterange btn-tool nav-link m-0" title="Date range"><i class="far fa-calendar-alt"></i></button>
-                  </li>
-                  <li class="nav-item">
-                    <button type="button" class="btn btn-tool nav-link m-0" data-card-widget="collapse" data-toggle="tab"><i class="fas fa-minus"></i></button>
-                  </li>
-                  <li class="nav-item">
-                    <button type="button" class="btn btn-tool nav-link m-0" data-card-widget="remove" data-toggle="tab"><i class="fas fa-times"></i></button>
+                    <div class="input-group m-0">
+                      <button class="btn btn-tool btn-outline-secondary m-0" type="button" id="dateRangePickerComplaintType">
+                        <i class="fas fa-calendar-alt"></i>
+                      </button>
+                    </div>
                   </li>
                 </ul>
               </div>
             </div>
             <div class="card-body p-0">
-              <div class="tab-content p-0">
-                <!-- Morris chart - Sales -->
-                <div class="chart tab-pane active" id="revenue-chart">
-                  <div style="display: block">
-                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [type]="barChartType"> </canvas>
+              <div class="row">
+                <div class="col-md-6 ">
+                  <div class="form-group paddingLeft-10">
+                    <label>Solution</label>
+                    <select class="form-control" [(ngModel)]="params.ComplaintType.Solution" (change)="getComplaintTypeCount()">
+                      <option *ngFor="let solution of staticData.solutions;" value="{{ solution.solution }}"> {{ solution.solution }}</option>
+                    </select>
                   </div>
                 </div>
-                <div class="chart tab-pane responsiveBody" id="sales-chart" >
-                  <table class="table table-bordered">
+              </div>
+              <div class="tab-content p-0">
+                <div class="chart tab-pane active p-3" id="complaintType-chart">
+                  <div style="display: block">
+                    <canvas baseChart [datasets]="barChartDataComplaint" [labels]="barChartLabelsComplaint" [options]="barChartOptionsNoStack" [legend]="true" [type]="barChartType"> </canvas>
+                  </div>
+                </div>
+                <div class="chart tab-pane responsiveBody" id="complaintType-table" >
+                  <table *ngIf="complaintTypeColumns" class="table table-bordered">
                     <thead>
                       <tr>
                         <th style="width: 10px">#</th>
-                        <th> Status </th>
-                        <th> Fulfillment </th>
-                        <th class="noWordWrap"> Wellness Advisors </th>
-                        <th class="noWordWrap"> Grand Total </th>
+                        <th> Label </th>
+                        <th *ngFor="let complaint of complaintTypeColumns;"> {{ complaint }} </th>
                       </tr>
                     </thead>
                     <tbody>
-                      <ng-container *ngFor="let assignee of assigneeData; let assigneeIndex = index;">
+                      <ng-container *ngFor="let solution of solutionRows; let solutionaIndex = index;">
                         <tr>
-                          <td>{{ assigneeIndex+1 }}.</td>
-                          <td>{{ assignee.status }}</td>
-                          <td>{{ assignee.fulfillment_count }}</td>
-                          <td>{{ assignee.wellness_advisor_count }}</td>
-                          <td>{{ assignee.grand_total }}</td>
+                          <td >{{ solutionaIndex+1 }}.</td>
+                          <td class="noWordWrap">{{ solution }}</td>
+                          <td *ngFor="let complaint of complaintTypeColumns;" >{{ getCOuntOfComplaintType(complaint, solution) }}</td>
                         </tr>
                       </ng-container>
                     </tbody>
                   </table>
                 </div>
               </div>
-
             </div>
             <!-- /.card-body -->
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="card card-primary">
+        <!-- /.col-md -->
+        <div class="col-md-12">
+          <div class="card card-info">
             <div class="card-header">
-              <h3 class="card-title">Return</h3>
+              <h3 class="card-title">Complaint</h3>
 
               <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                  <i class="fas fa-times"></i>
-                </button>
+                <ul class="nav nav-pills">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#complaint-chart" data-toggle="tab">Chart</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#complaint-table" data-toggle="tab">Table</a>
+                  </li>
+                  <li class="nav-item">
+                    <div class="input-group m-0">
+                      <button class="btn btn-tool btn-outline-secondary m-0" type="button" id="dateRangePickerComplaintType">
+                        <i class="fas fa-calendar-alt"></i>
+                      </button>
+                    </div>
+                  </li>
+                </ul>
               </div>
             </div>
-            <div class="card-body">
-              <div style="display: block;">
-                <canvas baseChart
-                      [datasets]="pieChartData"
-                      [labels]="pieChartLabels"
-                      [options]="pieChartOptions"
-                      [legend]="pieChartLegend"
-                      [type]="pieChartType">
-                </canvas>
+            <div class="card-body p-0">
+              <div class="row">
+                <div class="col-md-6 ">
+                  <div class="form-group paddingLeft-10">
+                    <label>Complaint Type</label>
+                    <select class="form-control" [(ngModel)]="params.Complaint.ComplaintType" (change)="getCountOfComplaint()">
+                      <option *ngFor="let complaintName of staticData.complaint;" value="{{ complaintName.complaint_name }}"> {{ complaintName.complaint_name }}</option>
+                    </select>
+                  </div>
+                </div>
 
+              </div>
+              <div class="tab-content p-0">
+                <div class="chart tab-pane active p-3" id="complaint-chart">
+                  <div style="display: block">
+                    <canvas baseChart [datasets]="barChartDataComplaintCount" [labels]="barChartLabelsComplaintCount" [options]="barChartOptionsNoStack" [legend]="true" [type]="barChartType" height="70"> </canvas>
+                  </div>
+                </div>
+                <div class="chart tab-pane responsiveBody" id="complaint-table" >
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th style="width: 10px">#</th>
+                        <th *ngFor="let complaint of uniqueComplaints">{{ complaint }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngFor="let solution of uniqueSolutions; let usolutionaIndex = index;">
+                        <tr>
+                          <td >{{ usolutionaIndex+1 }}.</td>
+                          <td class="noWordWrap">{{ solution }}</td>
+                          <td *ngFor="let complaint of complaintTypeColumns;" >{{ getTableComplaintDataFormate(complaint, solution) }}</td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
             <!-- /.card-body -->
           </div>
         </div>
-        <div class="col-md-5">
-          <div class="card card-primary">
+        <!-- /.col-md -->
+        <div class="col-md-12">
+          <div class="card card-info">
             <div class="card-header">
-              <h3 class="card-title">Source</h3>
+              <h3 class="card-title">SKU</h3>
 
               <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                  <i class="fas fa-times"></i>
-                </button>
+                <ul class="nav nav-pills">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#sku-chart" data-toggle="tab">Chart</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#sku-table" data-toggle="tab">Table</a>
+                  </li>
+                  <li class="nav-item">
+                    <div class="input-group m-0">
+                      <button class="btn btn-tool btn-outline-secondary m-0" type="button" id="dateRangePickerComplaintType">
+                        <i class="fas fa-calendar-alt"></i>
+                      </button>
+                    </div>
+                  </li>
+                </ul>
               </div>
             </div>
-            <div class="card-body">
-              <div style="display: block">
-                <canvas baseChart [datasets]="barChartDataSource" [labels]="barChartLabelsSource" [options]="barChartOptions" [legend]="barChartLegend" [type]="barChartType"> </canvas>
-              </div>
-            </div>
-            <!-- /.card-body -->
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card card-primary">
-            <div class="card-header">
-              <h3 class="card-title">MIO (Multiple Item Order)</h3>
+            <div class="card-body p-0">
+              <div class="row">
+                <div class="col-md-6 ">
+                  <div class="form-group paddingLeft-10">
+                    <label>Complaint Type</label>
+                    <select class="form-control" [(ngModel)]="params.Complaint.ComplaintType" (change)="getCountOfComplaint()">
+                      <option *ngFor="let complaintName of staticData.complaint;" value="{{ complaintName.complaint_name }}"> {{ complaintName.complaint_name }}</option>
+                    </select>
+                  </div>
+                </div>
 
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                  <i class="fas fa-times"></i>
-                </button>
               </div>
-            </div>
-            <div class="card-body">
-              <div style="display: block">
-                <canvas baseChart [datasets]="barChartDataMIO" [labels]="barChartLabelsMIO" [options]="barChartOptions" [legend]="barChartLegend" [type]="barChartType"> </canvas>
-              </div>
-            </div>
-            <!-- /.card-body -->
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card card-primary">
-            <div class="card-header">
-              <h3 class="card-title">Country (Canada)</h3>
-
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-            <div class="card-body">
-              <div style="display: block">
-                <canvas baseChart [datasets]="barChartDataCountry" [labels]="barChartLabelsCountry" [options]="barChartOptionsCountry" [legend]="barChartLegend" [type]="barChartType"> </canvas>
+              <div class="tab-content p-0">
+                <div class="chart tab-pane active p-3" id="sku-chart">
+                  <div style="display: block">
+                    <canvas baseChart [datasets]="barChartDataSKU" [labels]="barChartLabelsSKU" [options]="barChartOptionsNoStack" [legend]="true" [type]="'horizontalBar'" height="70"  > </canvas>
+                  </div>
+                </div>
+                <div class="chart tab-pane responsiveBody" id="sku-table" >
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th style="width: 10px">#</th>
+                        <th *ngFor="let complaint of uniqueComplaints">{{ complaint }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngFor="let solution of uniqueSolutions; let usolutionaIndex = index;">
+                        <tr>
+                          <td >{{ usolutionaIndex+1 }}.</td>
+                          <td class="noWordWrap">{{ solution }}</td>
+                          <td *ngFor="let complaint of complaintTypeColumns;" >{{ getTableComplaintDataFormate(complaint, solution) }}</td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
             <!-- /.card-body -->
           </div>
         </div>
+        <!-- /.col-md -->
       </div>
     </div>
   </section>

@@ -1,0 +1,56 @@
+
+<div class="card {{ cardBackground }}">
+  <div class="card-header">
+    <h3 class="card-title">{{ cardTitle }}</h3>
+    <div class="card-tools">
+      <ul class="nav nav-pills ml-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="#{{ cardAliasName }}-chart" data-toggle="tab">Chart</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#{{ cardAliasName }}-table" data-toggle="tab">Table</a>
+        </li>
+        <li class="nav-item">
+          <div class="input-group m-0">
+            <button class="btn btn-tool btn-outline-secondary m-0" type="button" id="dateRangePicker{{ cardAliasName }}">
+              <i class="fas fa-calendar-alt"></i>
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <div class="tab-content p-0">
+      <!-- Morris chart - Sales -->
+      <div class="chart tab-pane active p-3" id="{{ cardAliasName }}-chart">
+        <div style="display: block">
+          <canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions" [legend]="chartLegend" [type]="chartType" height="{{canvaHeight}}"> </canvas>
+        </div>
+      </div>
+      <div class="chart tab-pane responsiveBody" id="{{ cardAliasName }}-table" >
+        <table class="table table-bordered" *ngIf="chartTableData">
+          <thead>
+            <tr>
+              <th style="width: 10px">#</th>
+              <ng-container >
+                <th class="noWordWrap" *ngFor="let header of chartTableData.tableHeader"> {{ header }} </th>
+              </ng-container>
+
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container >
+              <tr *ngFor="let data of chartTableData.tableBody; let tableIndex = index;">
+                <td>{{ tableIndex+1 }}.</td>
+                <td class="noWordWrap" *ngFor="let column of getColumnHeaders(data)">{{ data[column] }}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+  <!-- /.card-body -->
+</div>

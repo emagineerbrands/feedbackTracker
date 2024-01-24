@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { DateRange } from '../../interface/DateRange';
 
 @Injectable({
   providedIn: 'root'
@@ -154,33 +155,46 @@ export class FeedbackService {
     return this.httpClient.post<any>(this.logtypefeedbackUrl+'/InactivateTicket', data, { headers });
   }
 
-  assigneeCountReport(data:any){
-    let params = ((data.fromDate !== '') && (data.toDate !== '')) ? 'start_date='+data.fromDate+'&end_date='+data.toDate : '';
+  assigneeCountReport(data:DateRange){
+    let params = ((data.FromDate !== '') && (data.ToDate !== '')) ? 'start_date='+data.FromDate+'&end_date='+data.ToDate : '';
     return this.httpClient.get(this.logtypefeedbackUrl+"/AssigneeReport?"+params);
   }
 
-  returnCountReport(data:any){
-    let params = ((data.fromDate !== '') && (data.toDate !== '')) ? 'start_date='+data.fromDate+'&end_date='+data.toDate : '';
+  returnCountReport(data:DateRange){
+    let params = ((data.FromDate !== '') && (data.ToDate !== '')) ? 'start_date='+data.FromDate+'&end_date='+data.ToDate : '';
     return this.httpClient.get(this.logtypefeedbackUrl+"/ReturnCountReport?"+params);
   }
 
-  sourceCountReport(data:any){
-    let params = ((data.fromDate !== '') && (data.toDate !== '')) ? 'start_date='+data.fromDate+'&end_date='+data.toDate : '';
+  sourceCountReport(data:DateRange){
+    let params = ((data.FromDate !== '') && (data.ToDate !== '')) ? 'start_date='+data.FromDate+'&end_date='+data.ToDate : '';
     return this.httpClient.get(this.logtypefeedbackUrl+"/SourceCountReport?"+params);
   }
-  mioCountReport(data:any){
-    let params = ((data.fromDate !== '') && (data.toDate !== '')) ? 'start_date='+data.fromDate+'&end_date='+data.toDate : '';
+  mioCountReport(data:DateRange){
+    let params = ((data.FromDate !== '') && (data.ToDate !== '')) ? 'start_date='+data.FromDate+'&end_date='+data.ToDate : '';
     return this.httpClient.get(this.logtypefeedbackUrl+"/MIOCountReport?"+params);
   }
 
-  countryCountReport(data:any){
-    let params = ((data.fromDate !== '') && (data.toDate !== '')) ? 'start_date='+data.fromDate+'&end_date='+data.toDate : '';
+  countryCountReport(data:DateRange){
+    let params = ((data.FromDate !== '') && (data.ToDate !== '')) ? 'start_date='+data.FromDate+'&end_date='+data.ToDate : '';
     return this.httpClient.get(this.logtypefeedbackUrl+"/CanadaCountReport?"+params);
   }
 
-  complaintTypeCOuntReport(data:any){
-    let params = ((data.fromDate !== '') && (data.toDate !== '')) ? 'start_date='+data.fromDate+'&end_date='+data.toDate : '';
+  complaintTypeCountReport(data:any){
+    let params = ((data.FromDate !== '') && (data.ToDate !== '')) ? 'start_date='+data.FromDate+'&end_date='+data.ToDate : '';
+    params += (data.Solution !== '') ? 'solution='+data.Solution : '';
     return this.httpClient.get(this.logtypefeedbackUrl+"/ComplaintTypeCountReport?"+params);
+  }
+
+  complaintCountReport(data:any){
+    let params = ((data.FromDate !== '') && (data.ToDate !== '')) ? 'start_date='+data.FromDate+'&end_date='+data.ToDate : '';
+    params += (data.ComplaintType !== '') ? 'complaint_type='+data.ComplaintType : '';
+    return this.httpClient.get(this.logtypefeedbackUrl+"/ComplaintCountReport?"+params);
+  }
+  skuCountReport(data:any){
+    let params = ((data.FromDate !== '') && (data.ToDate !== '')) ? 'start_date='+data.FromDate+'&end_date='+data.ToDate : '';
+    params += (data.Complaint !== '') ? 'complaint='+data.Complaint : '';
+    params += (data.ComplaintType !== '') ? 'complaint_type='+data.ComplaintType : '';
+    return this.httpClient.get(this.logtypefeedbackUrl+"/SkuCountReport?"+params);
   }
 
 }

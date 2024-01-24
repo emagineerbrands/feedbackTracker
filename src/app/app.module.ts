@@ -3,6 +3,7 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { environment } from '../environments/environment';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { BreadCrumbsComponent } from './components/particals/bread-crumbs/bread-crumbs.component';
 import { SmallBoxComponent } from './components/particals/small-box/small-box.component';
+import { ChartTableComponent } from './components/particals/chart-table/chart-table.component';
 
 
 @NgModule({
@@ -23,7 +25,8 @@ import { SmallBoxComponent } from './components/particals/small-box/small-box.co
     HomePageComponent,
     FeedbackListComponent,
     BreadCrumbsComponent,
-    SmallBoxComponent
+    SmallBoxComponent,
+    ChartTableComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +37,8 @@ import { SmallBoxComponent } from './components/particals/small-box/small-box.co
     AngularFireAuthModule,
     HttpClientModule,
     NgChartsModule,
-    FormsModule
+    FormsModule,
+    BsDropdownModule.forRoot(),
   ],
   providers: [
     provideClientHydration()
