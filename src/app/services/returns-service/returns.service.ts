@@ -35,6 +35,11 @@ export class ReturnsService {
       .set('Authorization', 'Basic ' + btoa(`${this.apiKey}:${this.apiSecret}`));
     return this.httpClient.get(`${this.apiEndpoint}orders?orderNumber=${Order}`, { headers: headers });
   }
+  getStoreDetails(): Observable<any> {
+    const headers = new HttpHeaders()
+      .set('Authorization', 'Basic ' + btoa(`${this.apiKey}:${this.apiSecret}`));
+    return this.httpClient.get(`${this.apiEndpoint}stores`, { headers: headers });
+  }
 
 
   submitReturns(data:any){

@@ -1,11 +1,47 @@
 
-/* You can add global styles to this file, and also import other style files */
-.sidebar-mini.sidebar-collapse .main-sidebar, .sidebar-mini.sidebar-collapse .main-sidebar::before{
-  width: 5.6rem;
+
+.titleHeader{
+  font-size: medium;
 }
-.sidebar-mini.sidebar-collapse .content-wrapper, .sidebar-mini.sidebar-collapse .main-footer, .sidebar-mini.sidebar-collapse .main-header{
-  margin-left: 5.6rem !important;
+.paddingTop-5{
+  padding-top: 5px !important;
+
 }
+.paddingBottm-5{
+  padding-bottom: 5px !important;
+}
+.positionRelative{
+  position: relative;
+}
+.custom-backdrop {
+  z-index: unset !important; /* You can set it to any value you need */
+}
+.button-blue, .button-blue:hover, .nav-link.active, .ngx-pagination .current {
+  background-color: #219ebc !important;
+  color: #fefae0 !important;
+  border: none !important;
+}
+.pointerHand{
+  cursor: pointer;
+}
+.disabled{
+  cursor: not-allowed !important;
+}
+.active > .page-link, .page-link.active{
+  background-color: #219ebc!important;
+  color: #fefae0!important;
+}
+.disabled>.page-link, .page-link.disabled {
+  pointer-events: none;
+  background-color: #e9ecef;
+  border-color: #dee2e6;
+}
+@media (max-width: 991.98px){
+  .sidebar-mini.sidebar-collapse .content-wrapper, .sidebar-mini.sidebar-collapse .main-footer, .sidebar-mini.sidebar-collapse .main-header{
+    margin-left: 0px !important;
+  }
+}
+
 .navbar{
   margin-bottom: 0px;
 }
@@ -32,6 +68,8 @@
 
 .responsiveBody{
   overflow-x: auto;
+  max-height: 300px;
+  overflow-y: auto;
 }
 .toast-container{
 position: fixed !important;

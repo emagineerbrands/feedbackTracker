@@ -3,6 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { DateRange } from '../../interface/DateRange';
+import { FeedbackFilters } from '../../interface/FeedbackFilters';
+import { PaginationParams } from '../../interface/PaginationParams';
+import { ShortParams } from '../../interface/ShortParams';
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +20,14 @@ export class FeedbackService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getTickets(recordsPerPage:number, pageOffset:number, sortName:string, sortType:string, fromDate:string | null, toDate:string | null, orderNumber:any, status:number, complaint:string, download:boolean, agent:number, aggignee:string):Observable<any>{
-    let params:string = 'page_size='+recordsPerPage+'&page_offset='+pageOffset+'&sort_name='+sortName+'&sort_type='+sortType;
-    params += ((fromDate !== '') && (toDate !== '')) ? '&start_date='+fromDate+'&end_date='+toDate : '';
-    params += ((orderNumber != '') && (!isNaN(orderNumber) && (typeof Number(orderNumber) === 'number'))) ? '&order_number='+orderNumber : '';
-    params += (status != 0) ? '&status='+status : '';
-    params += (agent != 0) ? '&modified_by='+agent : '';
-    params += (complaint != '') ? '&complaint_id='+complaint : '';
-    params += (aggignee != '') ? '&assignee='+aggignee : '';
+  getTickets(data:FeedbackFilters, pagination:PaginationParams, short:ShortParams, download:boolean):Observable<any>{
+    let params:string = 'page_size='+pagination.RecordsPerPage+'&page_offset='+pagination.PageOffset+'&sort_name='+short.ShortName+'&sort_type='+short.ShortType;
+    params += ((data.DateRange.FromDate !== '') && (data.DateRange.ToDate !== '')) ? '&start_date='+data.DateRange.FromDate+'&end_date='+data.DateRange.ToDate : '';
+    params += (data.OrderNumber != '') ? '&order_number='+data.OrderNumber : '';
+    params += (data.Status != 0) ? '&status='+data.Status : '';
+    params += (data.Agent != 0) ? '&modified_by='+data.Agent : '';
+    params += (data.Complaint != '') ? '&complaint_id='+data.Complaint : '';
+    params += (data.Assignee != '') ? '&assignee='+data.Assignee : '';
     params += (download) ? '&download=True' : '';
     return this.httpClient.get( this.logtypefeedbackUrl+'/FeedBackDetails?'+params);
   }
@@ -188,11 +191,12 @@ export class FeedbackService {
   complaintCountReport(data:any){
     let params = ((data.FromDate !== '') && (data.ToDate !== '')) ? 'start_date='+data.FromDate+'&end_date='+data.ToDate : '';
     params += (data.ComplaintType !== '') ? 'complaint_type='+data.ComplaintType : '';
+    params += (data.Complaint !== '') ? '&complaint='+data.Complaint : '';
     return this.httpClient.get(this.logtypefeedbackUrl+"/ComplaintCountReport?"+params);
   }
   skuCountReport(data:any){
     let params = ((data.FromDate !== '') && (data.ToDate !== '')) ? 'start_date='+data.FromDate+'&end_date='+data.ToDate : '';
-    params += (data.Complaint !== '') ? 'complaint='+data.Complaint : '';
+    params += (data.Complaint !== '') ? '&complaint='+data.Complaint : '';
     params += (data.ComplaintType !== '') ? 'complaint_type='+data.ComplaintType : '';
     return this.httpClient.get(this.logtypefeedbackUrl+"/SkuCountReport?"+params);
   }

@@ -1,6 +1,7 @@
 // @ts-ignore
 import { Component, AfterViewInit  } from '@angular/core';
 import { ChartOptions, ChartType, ChartDataset } from 'chart.js';
+
 import { FeedbackService } from '../../services/feedback-service/feedback.service';
 import { ReturnsService } from '../../services/returns-service/returns.service';
 import flatpickr from 'flatpickr';
@@ -9,6 +10,7 @@ import { DateRange } from '../../interface/DateRange';
 import { ColorService } from '../../services/color-service/color.service';
 import { DateConvertService } from '../../services/date-convert-service/date-convert.service';
 import { ChartCanvasParams } from '../../interface/ChartCanvasParams';
+declare var $: any; // Declare jQuery
 
 type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
@@ -113,13 +115,14 @@ export class HomePageComponent implements AfterViewInit  {
     Complaint:{
       FromDate:'',
       ToDate:'',
-      ComplaintType:'Fitting'
+      ComplaintType:'Fitting',
+      Complaint:''
     },
     SKU:{
       FromDate:'',
       ToDate:'',
-      Complaint:'Asking for receipt,Stolen,Box destroyed/smashed',
-      ComplaintType:'Order inquiry,Defective items'
+      ComplaintType:'Order inquiry',
+      Complaint:''
     },
   }
 
@@ -162,7 +165,22 @@ export class HomePageComponent implements AfterViewInit  {
   }
 
   ngAfterViewInit(): void {
+    $(document).ready(() => {
+      $('.select2').select2().on('change', (e:any) => {
+        // Handle the change event
+        let selectedValue = $(e.currentTarget).val();
+        this.params.Complaint.Complaint = selectedValue.join(',');
+        this.getCountOfComplaint();
+        this.getCountOfComplaintTable();
 
+      });
+      $('.select2SKU').select2().on('change', (e:any) => {
+        // Handle the change event
+        let selectedValue = $(e.currentTarget).val();
+        this.params.SKU.Complaint = selectedValue.join(',');
+        this.getSKUCountReport();
+      });
+    });
   }
 
   public barChartLabelsComplaint: string[] = [];
@@ -172,6 +190,26 @@ export class HomePageComponent implements AfterViewInit  {
 
   // Pie Chart
   public barChartOptionsNoStack: ChartOptions = {
+    responsive: true,
+    // Add other chart options as needed
+  };
+  public barChartOptionsNoStackNoColor: ChartOptions = {
+    responsive: true,
+    plugins:{
+      legend:{
+        labels:{
+          boxWidth:0,
+        }
+      }
+    }
+    // Add other chart options as needed
+  };
+  public SKUbarChartOptionsNoStack: ChartOptions = {
+    indexAxis: 'y',
+    scales: {
+      x: { stacked: true },
+      y: { stacked: true },
+    },
     responsive: true,
     // Add other chart options as needed
   };
@@ -193,10 +231,32 @@ export class HomePageComponent implements AfterViewInit  {
 
   }
 
+
+
+  complaintType:any[]=[];
+  complaint:any[]=[];
+  complaintTemp:any[]=[];
+  skuComplaint:any[]=[];
   async getStaticData(){
     await this.service.getAllStaticData().subscribe((data:any) => {
       this.staticData = data;
+      this.staticData.complaint.forEach((c: any) => {
+        c.complaint_type.forEach((ct: string) => {
+          this.complaint.push({
+            "complaint_id": c.complaint_id,
+            "complaint_name": c.complaint_name,
+            "complaintType": ct
+          });
+        });
+      });
+      this.skuComplaint = this.complaintTemp = [...this.complaint];
+      this.complaint = this.complaintTemp.filter((x:any) => x.complaint_name === this.params.Complaint.ComplaintType);
     });
+  }
+
+  selectComplaint(event:any){
+    this.complaint = this.complaintTemp.filter((x:any) => x.complaint_name === event.target.value);
+    this.getCountOfComplaint();
   }
 
   async getAssigneeCount(){
@@ -451,7 +511,7 @@ export class HomePageComponent implements AfterViewInit  {
   complaintTypeData:any[] = [];
   async getComplaintTypeCount(){
     await this.service.complaintTypeCountReport(this.params.ComplaintType).subscribe((data:any) => {
-      this.complaintTypeData = data;
+
       this.getComplaintTypeCountTable();
       const formattedData = this.formatDataForBarChartComplaintType(data);
       this.barChartLabelsComplaint = formattedData.labels;
@@ -466,6 +526,7 @@ export class HomePageComponent implements AfterViewInit  {
     complaint.FromDate = this.params.ComplaintType.FromDate;
     complaint.ToDate = this.params.ComplaintType.ToDate;
     await this.service.complaintTypeCountReport(complaint).subscribe((data:any) => {
+      this.complaintTypeData = data;
       this.complaintTypeColumns = Array.from(new Set(data.map((item:any) => item.complaint_type)));
       this.solutionRows = Array.from(new Set(data.map((item:any) => item.solution)));
 
@@ -514,24 +575,31 @@ export class HomePageComponent implements AfterViewInit  {
   barChartDataComplaintCount: any[] = [];
   complaintData:any;
   async getCountOfComplaint(){
+    console.log('table', this.params.Complaint);
     await this.service.complaintCountReport(this.params.Complaint).subscribe((data:any) => {
+
       const complaitData = this.formatDataForBarChartComplaint(data);
       this.barChartLabelsComplaintCount = complaitData.labels;
       this.barChartDataComplaintCount = complaitData.datasets;
+
     });
   }
+
+
   async getCountOfComplaintTable(){
-    let complaint:any
-    complaint.FromDate = this.params.Complaint.FromDate;
-    complaint.ToDate = this.params.Complaint.ToDate;
+    let complaint = {FromDate:"", ToDate:"", ComplaintType:""}
+    complaint.FromDate = "";
+    complaint.ToDate = "";
     complaint.ComplaintType = '';
     await this.service.complaintCountReport(complaint).subscribe((data:any) => {
-      console.log('table', data);
+
       this.uniqueComplaints = Array.from(new Set(data.map((item: any) => item.complaint)));
       this.uniqueSolutions = Array.from(new Set(data.map((item: any) => item.solution)));
       this.complaintData = data;
     });
   }
+
+
 
   uniqueComplaints:any;
   uniqueSolutions:any;
@@ -560,6 +628,12 @@ export class HomePageComponent implements AfterViewInit  {
     const uniqueComplaints = Array.from(new Set(data.map((item: any) => item.complaint)));
     const uniqueSolutions = Array.from(new Set(data.map((item: any) => item.solution)));
 
+    // Generate a color for each unique complaint
+    const complaintColors = new Map<string, string>();
+    uniqueComplaints.forEach(complaint => {
+      complaintColors.set(complaint, this.color.getRandomHexColor());
+    });
+
     const labels = uniqueComplaints.map(complaint => `${complaint}`);
 
     const datasets = uniqueSolutions.map(solution => {
@@ -568,10 +642,13 @@ export class HomePageComponent implements AfterViewInit  {
         return item ? item.count : 0;
       });
 
+      // Map each solution to a set of colors based on the complaint
+      const backgroundColor = uniqueComplaints.map(complaint => complaintColors.get(complaint));
+
       return {
         data: dataForSolution,
         label: solution,
-        backgroundColor: this.color.getRandomHexColor(),
+        backgroundColor: backgroundColor,
       };
     });
 
@@ -604,6 +681,17 @@ export class HomePageComponent implements AfterViewInit  {
     // Extract unique complaint types
     const uniqueComplaintTypes = Array.from(new Set(data.map((item: any) => item.complaint_type)));
 
+    // Create a map to hold the total count for each SKU
+    let skuTotalCountMap:any = {};
+
+    uniqueSKUs.forEach(sku => {
+      skuTotalCountMap[sku] = data.filter(item => item.sku === sku)
+                                  .reduce((total, item) => total + item.count, 0);
+    });
+
+    // Sort SKUs based on total count in descending order
+    uniqueSKUs.sort((a, b) => skuTotalCountMap[b] - skuTotalCountMap[a]);
+
     const labels = uniqueSKUs.map(sku => `${sku}`);
 
     const datasets = uniqueComplaintTypes.map(complaintType => {
@@ -627,6 +715,12 @@ export class HomePageComponent implements AfterViewInit  {
     });
 
     return { labels, datasets };
+  }
+
+
+  changeSKUParams(event:any){
+    this.skuComplaint = this.complaintTemp.filter((x:any) => x.complaint_name === event.target.value);
+    this.getSKUCountReport();
   }
 
 

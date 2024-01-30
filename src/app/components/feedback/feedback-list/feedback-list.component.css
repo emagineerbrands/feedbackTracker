@@ -1,0 +1,95 @@
+th {
+  color: #495057;
+}
+td{
+  color: #6c757d;
+}
+.positionRelative{
+  position: relative;
+}
+.bgprimary > small
+{
+  background-color: #6CB4EE;
+  padding: 5px;
+  color:white;
+  border-radius: 10px;
+}
+
+.bgclosed > small
+{
+  background-color: #b7e4c7;
+  color:#1b4332;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.bginprogress > small
+{
+  background-color: #ffc971;
+  padding: 5px;
+  color:#7c6a0a;
+  border-radius: 10px;
+}
+
+/* .search {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+} */
+
+.form-control{
+    appearance: auto;
+}
+.overlay-wrapper .overlay{
+  flex-direction: column;
+  }
+
+/*
+thead .sorting:before, table.dataTable>thead .sorting:after, table.dataTable>thead .sorting_asc:before, table.dataTable>thead .sorting_asc:after, table.dataTable>thead .sorting_desc:before, table.dataTable>thead .sorting_desc:after, table.dataTable>thead .sorting_asc_disabled:before, table.dataTable>thead .sorting_asc_disabled:after, table.dataTable>thead .sorting_desc_disabled:before, table.dataTable>thead .sorting_desc_disabled:after {
+    position: absolute;
+    bottom: 0.9em;
+    display: block;
+    opacity: .3;
+} */
+.idfilter,
+.orderIdSearchBox{
+  width: 2rem;
+  padding: 6px 5px;
+}
+.subTicketsList{
+  background-color: #f4f4f4;
+}
+.activeTicketRow{
+  position: relative;
+  width: 100%;
+  box-shadow: 0px 2px 5px 0px #ccc;
+}
+.active>.page-link, .page-link.active{
+  background-color: #219ebc !important;
+  color: #fefae0 !important;
+}
+
+.filterHeader th{
+  border-bottom: none;
+}
+th div.header-dropdown{
+
+  margin-bottom:5px;
+  cursor: pointer;
+  position: relative;
+}
+th div.header-dropdown .dots{
+  color: #8b8a8acc;
+}
+.table {
+  font-size: 13px;
+  text-align: center;
+}
+.responsiveFeedbackTableBody{
+  overflow-x: scroll !important;
+}
+.table>:not(caption)>*>*{
+  padding: 0.5rem;
+}

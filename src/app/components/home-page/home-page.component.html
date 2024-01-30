@@ -37,8 +37,9 @@
         <div class="col-md-3">
           <app-chart-table [chartOptions]="StackedbarChartOptions" [chartLegend]="true" [chartType]="'bar'" [chartData]="countryChartData" [chartLabels]="countryChartLabels" [chartTableData]="countryTableDataFormate" (valueToParent)="dateFromChild($event, 'Country')" [cardBackground]="cardBackgroundInfo" [cardTitle]="'Country'" [cardAliasName]="'country'" [canvaHeight]="300" ></app-chart-table>
         </div>
-
-
+        <!--<div class="col-md-6">
+          <app-chart-table [chartOptions]="StackedbarChartOptions" [chartLegend]="true" [chartType]="'bar'" [chartData]="countryChartData" [chartLabels]="countryChartLabels" [chartTableData]="countryTableDataFormate" (valueToParent)="dateFromChild($event, 'Complaint Type')" [cardBackground]="cardBackgroundInfo" [cardTitle]="'Complaint Type'" [cardAliasName]="'complaintType'" [canvaHeight]="300" ></app-chart-table>
+        </div> -->
 
         <div class="col-md-6">
           <div class="card card-info">
@@ -69,7 +70,9 @@
                   <div class="form-group paddingLeft-10">
                     <label>Solution</label>
                     <select class="form-control" [(ngModel)]="params.ComplaintType.Solution" (change)="getComplaintTypeCount()">
-                      <option *ngFor="let solution of staticData.solutions;" value="{{ solution.solution }}"> {{ solution.solution }}</option>
+                      <ng-container *ngIf="staticData.solutions">
+                        <option *ngFor="let solution of staticData.solutions;" value="{{ solution.solution }}"> {{ solution.solution }}</option>
+                      </ng-container>
                     </select>
                   </div>
                 </div>
@@ -134,17 +137,24 @@
                 <div class="col-md-6 ">
                   <div class="form-group paddingLeft-10">
                     <label>Complaint Type</label>
-                    <select class="form-control" [(ngModel)]="params.Complaint.ComplaintType" (change)="getCountOfComplaint()">
-                      <option *ngFor="let complaintName of staticData.complaint;" value="{{ complaintName.complaint_name }}"> {{ complaintName.complaint_name }}</option>
+                    <select class="form-control" [(ngModel)]="params.Complaint.ComplaintType" (change)="selectComplaint($event)">
+                      <option *ngFor="let complaintTypeName of this.staticData.complaint;" value="{{ complaintTypeName.complaint_name }}"> {{ complaintTypeName.complaint_name }}</option>
                     </select>
                   </div>
                 </div>
-
+                <div class="col-md-6 ">
+                  <div class="form-group paddingLeft-10">
+                    <label>Complaint</label>
+                    <select multiple class="form-control select2"  data-placeholder="Select Complaint" >
+                      <option *ngFor="let complaintName of complaint;" value="{{ complaintName.complaintType }}">{{ complaintName.complaintType }}</option>
+                    </select>
+                  </div>
+                </div>
               </div>
               <div class="tab-content p-0">
                 <div class="chart tab-pane active p-3" id="complaint-chart">
                   <div style="display: block">
-                    <canvas baseChart [datasets]="barChartDataComplaintCount" [labels]="barChartLabelsComplaintCount" [options]="barChartOptionsNoStack" [legend]="true" [type]="barChartType" height="70"> </canvas>
+                    <canvas baseChart [datasets]="barChartDataComplaintCount" [labels]="barChartLabelsComplaintCount" [options]="barChartOptionsNoStackNoColor" [legend]="true" [type]="barChartType" height="70"> </canvas>
                   </div>
                 </div>
                 <div class="chart tab-pane responsiveBody" id="complaint-table" >
@@ -200,8 +210,16 @@
                 <div class="col-md-6 ">
                   <div class="form-group paddingLeft-10">
                     <label>Complaint Type</label>
-                    <select class="form-control" [(ngModel)]="params.Complaint.ComplaintType" (change)="getCountOfComplaint()">
+                    <select class="form-control" [(ngModel)]="params.SKU.ComplaintType" (change)="changeSKUParams($event)">
                       <option *ngFor="let complaintName of staticData.complaint;" value="{{ complaintName.complaint_name }}"> {{ complaintName.complaint_name }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6 ">
+                  <div class="form-group paddingLeft-10">
+                    <label>Complaint</label>
+                    <select multiple class="form-control select2SKU" data-placeholder="Select Complaint">
+                      <option *ngFor="let complaintName of skuComplaint;" value="{{ complaintName.complaintType }}">{{ complaintName.complaintType }}</option>
                     </select>
                   </div>
                 </div>
@@ -210,7 +228,7 @@
               <div class="tab-content p-0">
                 <div class="chart tab-pane active p-3" id="sku-chart">
                   <div style="display: block">
-                    <canvas baseChart [datasets]="barChartDataSKU" [labels]="barChartLabelsSKU" [options]="barChartOptionsNoStack" [legend]="true" [type]="'horizontalBar'" height="70"  > </canvas>
+                    <canvas baseChart [datasets]="barChartDataSKU" [labels]="barChartLabelsSKU" [options]="SKUbarChartOptionsNoStack" [legend]="true" [type]="'bar'" height="100"  > </canvas>
                   </div>
                 </div>
                 <div class="chart tab-pane responsiveBody" id="sku-table" >

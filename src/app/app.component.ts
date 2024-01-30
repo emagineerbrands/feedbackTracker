@@ -8,6 +8,7 @@ import { FeedbackService } from './services/feedback-service/feedback.service';
 import { ToastNotificationsService } from './services/toast-notification-service/toast-notifications.service';
 import { User } from './interface/User';
 import { isPlatformBrowser } from '@angular/common';
+import { InternalService } from './services/internal-service/internal.service';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +29,7 @@ export class AppComponent {
     private router : Router,
     private service: FeedbackService,
     public toastService: ToastNotificationsService,
+    public internal:InternalService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     if (isPlatformBrowser(this.platformId)) {

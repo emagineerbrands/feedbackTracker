@@ -33,19 +33,20 @@
           <thead>
             <tr>
               <th style="width: 10px">#</th>
-              <ng-container >
-                <th class="noWordWrap" *ngFor="let header of chartTableData.tableHeader"> {{ header }} </th>
+              <ng-container *ngFor="let header of chartTableData.tableHeader" >
+                <th class="noWordWrap"> {{ header }} </th>
               </ng-container>
-
             </tr>
           </thead>
           <tbody>
-            <ng-container >
+
               <tr *ngFor="let data of chartTableData.tableBody; let tableIndex = index;">
                 <td>{{ tableIndex+1 }}.</td>
-                <td class="noWordWrap" *ngFor="let column of getColumnHeaders(data)">{{ data[column] }}</td>
+                <ng-container *ngFor="let column of getColumnHeaders(data)">
+                  <td class="noWordWrap">{{ data[column] }}</td>
+                </ng-container>
               </tr>
-            </ng-container>
+
           </tbody>
         </table>
       </div>

@@ -17,7 +17,12 @@ import { FormsModule } from '@angular/forms';
 import { BreadCrumbsComponent } from './components/particals/bread-crumbs/bread-crumbs.component';
 import { SmallBoxComponent } from './components/particals/small-box/small-box.component';
 import { ChartTableComponent } from './components/particals/chart-table/chart-table.component';
-
+import { FeedbackFiltersComponent } from './components/particals/feedback-filters/feedback-filters.component';
+import { DateRangePickerComponent } from './components/particals/date-range-picker/date-range-picker.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
+import { PaginationComponent } from './components/particals/pagination/pagination.component';
+import { ConfirmationCheckComponent } from './components/model-popup/confirmation-check/confirmation-check.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +31,11 @@ import { ChartTableComponent } from './components/particals/chart-table/chart-ta
     FeedbackListComponent,
     BreadCrumbsComponent,
     SmallBoxComponent,
-    ChartTableComponent
+    ChartTableComponent,
+    FeedbackFiltersComponent,
+    DateRangePickerComponent,
+    PaginationComponent,
+    ConfirmationCheckComponent
   ],
   imports: [
     BrowserModule,
@@ -39,9 +48,11 @@ import { ChartTableComponent } from './components/particals/chart-table/chart-ta
     NgChartsModule,
     FormsModule,
     BsDropdownModule.forRoot(),
+    NgbModule,
   ],
   providers: [
-    provideClientHydration()
+    DatePipe,
+    provideClientHydration(),
   ],
   bootstrap: [AppComponent]
 })
