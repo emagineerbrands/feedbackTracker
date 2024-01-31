@@ -62,9 +62,9 @@ export class HomePageComponent implements AfterViewInit  {
   };
 
   //Assignee Info
-  assigneeChartData:ChartDataset[] = [];
-  assigneeChartLabels: string[] = [];
-  assigneeData:any;
+  public assigneeChartData:ChartDataset[] = [];
+  public assigneeChartLabels: string[] = [];
+  public assigneeData:any;
 
   //Return Info
   public returnChartLabels: string[] = [];
@@ -85,6 +85,21 @@ export class HomePageComponent implements AfterViewInit  {
   public countryChartLabels: string[] = [];
   public countryChartData: ChartDataset[] = [];
   public countryTableDataFormate:any;
+
+  //Complaint Type
+  public complaintTypeChartLabels: string[] = [];
+  public complaintTypeChartData: ChartDataset [] = [];
+  public complaintTypeTableData:any;
+
+  //Complaint
+  public complaintChartLabels: string[] = [];
+  public complaintChartData: ChartDataset[] = [];
+  public complaintTableData:any;
+
+  //SKU
+  public skuChartLabels: string[] = [];
+  public skuChartData: ChartDataset[] = [];
+  public skuTableData:any;
 
   params:ChartParams = {
     Assignee:{
@@ -127,7 +142,11 @@ export class HomePageComponent implements AfterViewInit  {
   }
 
 
+  // Dropdown Data for Complaint
   staticData:any;
+  complaint:any[]=[];
+  complaintTemp:any[]=[];
+  skuComplaint:any[]=[];
 
   constructor(
     private service:FeedbackService,
@@ -159,6 +178,24 @@ export class HomePageComponent implements AfterViewInit  {
         this.params.Country = value;
         this.getCountryCount();
         break;
+      case 'Complaint Type':
+        this.params.ComplaintType.FromDate = value.FromDate;
+        this.params.ComplaintType.ToDate = value.ToDate;
+        this.getComplaintTypeCountTable();
+        this.getComplaintTypeCount();
+        break;
+      case 'Complaint':
+        this.params.Complaint.FromDate = value.FromDate;
+        this.params.Complaint.ToDate = value.ToDate;
+        this.getCountOfComplaintTable();
+        this.getCountOfComplaint();
+        break;
+      case 'SKU':
+        this.params.SKU.FromDate = value.FromDate;
+        this.params.SKU.ToDate = value.ToDate;
+        this.getCountOfSKUTable();
+        this.getSKUCountReport();
+        break;
       default:
         break;
     }
@@ -183,9 +220,7 @@ export class HomePageComponent implements AfterViewInit  {
     });
   }
 
-  public barChartLabelsComplaint: string[] = [];
 
-  public barChartDataComplaint: ChartDataset [] = [];
 
 
   // Pie Chart
@@ -193,6 +228,7 @@ export class HomePageComponent implements AfterViewInit  {
     responsive: true,
     // Add other chart options as needed
   };
+
   public barChartOptionsNoStackNoColor: ChartOptions = {
     responsive: true,
     plugins:{
@@ -204,6 +240,7 @@ export class HomePageComponent implements AfterViewInit  {
     }
     // Add other chart options as needed
   };
+
   public SKUbarChartOptionsNoStack: ChartOptions = {
     indexAxis: 'y',
     scales: {
@@ -228,15 +265,12 @@ export class HomePageComponent implements AfterViewInit  {
     this.getCountOfComplaint();
     this.getCountOfComplaintTable();
     this.getSKUCountReport();
-
+    this.getCountOfSKUTable();
   }
 
 
+  //********* Static Dropdown Data *************//
 
-  complaintType:any[]=[];
-  complaint:any[]=[];
-  complaintTemp:any[]=[];
-  skuComplaint:any[]=[];
   async getStaticData(){
     await this.service.getAllStaticData().subscribe((data:any) => {
       this.staticData = data;
@@ -258,6 +292,9 @@ export class HomePageComponent implements AfterViewInit  {
     this.complaint = this.complaintTemp.filter((x:any) => x.complaint_name === event.target.value);
     this.getCountOfComplaint();
   }
+
+
+  //********* Assignee *************//
 
   async getAssigneeCount(){
     await this.service.assigneeCountReport(this.params.Assignee).subscribe((data:any) => {
@@ -293,6 +330,8 @@ export class HomePageComponent implements AfterViewInit  {
   }
 
 
+  //********* Return *************//
+
   async getReturnCount(){
     await this.service.returnCountReport(this.params.Return).subscribe((data:any) => {
       this.returnTableDataFormate = this.returnTableData(data);
@@ -326,6 +365,9 @@ export class HomePageComponent implements AfterViewInit  {
     ];
     return {'tableHeader':tableHeader, 'tableBody':tableBody};
   }
+
+
+  //********* Source *************//
 
   async getSourceCount(){
     await this.service.sourceCountReport(this.params.Source).subscribe((data:any) => {
@@ -384,6 +426,9 @@ export class HomePageComponent implements AfterViewInit  {
 
     return { labels, datasets };
   }
+
+
+  //********* MIO *************//
 
   async getMIOCOunt(){
     await this.service.mioCountReport(this.params.MIO).subscribe((data:any) => {
@@ -445,6 +490,8 @@ export class HomePageComponent implements AfterViewInit  {
 
 
 
+  //********* Country *************//
+
   async getCountryCount(){
     await this.service.countryCountReport(this.params.Country).subscribe((data:any) => {
       data.map((d:any) => {
@@ -492,7 +539,7 @@ export class HomePageComponent implements AfterViewInit  {
 
     const datasets = assigneeData.map((item, index) => {
       // Calculate percentage for each dataset
-      const fullOrderPercentage = (item.full_order_count / totalFullOrder) * 100;
+      const fullOrderPercentage:number = (item.full_order_count / totalFullOrder) * 100;
       const skuPercentage = (item.sku_count / totalSKU) * 100;
 
       return {
@@ -506,39 +553,14 @@ export class HomePageComponent implements AfterViewInit  {
   }
 
 
-  complaintTypeColumns:any[] = [];
-  solutionRows:any[] = [];
-  complaintTypeData:any[] = [];
+//********* Complaint Type *************//
+
   async getComplaintTypeCount(){
     await this.service.complaintTypeCountReport(this.params.ComplaintType).subscribe((data:any) => {
-
-      this.getComplaintTypeCountTable();
       const formattedData = this.formatDataForBarChartComplaintType(data);
-      this.barChartLabelsComplaint = formattedData.labels;
-      this.barChartDataComplaint = formattedData.datasets;
+      this.complaintTypeChartLabels = formattedData.labels;
+      this.complaintTypeChartData = formattedData.datasets;
     });
-  }
-  async getComplaintTypeCountTable(){
-    let complaint:any = {FromDate:'',
-    ToDate:'',
-    Solution:''
-  };
-    complaint.FromDate = this.params.ComplaintType.FromDate;
-    complaint.ToDate = this.params.ComplaintType.ToDate;
-    await this.service.complaintTypeCountReport(complaint).subscribe((data:any) => {
-      this.complaintTypeData = data;
-      this.complaintTypeColumns = Array.from(new Set(data.map((item:any) => item.complaint_type)));
-      this.solutionRows = Array.from(new Set(data.map((item:any) => item.solution)));
-
-    });
-  }
-
-  getCOuntOfComplaintType(complaint:any, solution:any){
-    let complaintTypeCount:number = 0;
-    this.complaintTypeData.filter((complaintType:any) => {
-      if(complaintType.complaint_type == complaint && complaintType.solution == solution) {  complaintTypeCount = Number(complaintType.count); }
-    });
-    return complaintTypeCount;
   }
 
   formatDataForBarChartComplaintType(data:any[]): { labels: string[], datasets: any[] } {
@@ -571,56 +593,68 @@ export class HomePageComponent implements AfterViewInit  {
     return { labels, datasets };
   }
 
-  barChartLabelsComplaintCount: string[] = [];
-  barChartDataComplaintCount: any[] = [];
-  complaintData:any;
+  async getComplaintTypeCountTable(){
+    const complaint:any = {
+      FromDate:this.params.ComplaintType.FromDate,
+      ToDate:this.params.ComplaintType.ToDate,
+      Solution:''
+    };
+    await this.service.complaintTypeCountReport(complaint).subscribe((data:any) => {
+      this.complaintTypeTableData = this.formatComplaintTypeTableData(data);
+    });
+  }
+
+  formatComplaintTypeTableData(data: any) {
+    // Extract unique solutions for table headers
+    const uniqueSolutions: string[] = Array.from(new Set(data.map((item: any) => item.solution)));
+    const tableHeader: string[] = ["Complaint Type", ...uniqueSolutions, "Total"];
+
+    // Extract unique complaint types
+    const uniqueComplaintTypes: string[] = Array.from(new Set(data.map((item: any) => item.complaint_type)));
+
+    // Create table body
+    let complaintTypeTableData = uniqueComplaintTypes.map((complaintType) => {
+      const row: { [key: string]: any } = { "Complaint Type": complaintType };
+
+      // Initialize counts for each solution
+      uniqueSolutions.forEach(solution => {
+        row[solution] = 0;
+      });
+
+      // Aggregate counts for each solution
+      data.forEach((item: any) => {
+        if (item.complaint_type === complaintType) {
+          row[item.solution] += item.count;
+        }
+      });
+
+      // Calculate total count for the complaint type
+      row["Total"] = uniqueSolutions.reduce((sum, solution) => sum + row[solution], 0);
+
+      return row;
+    });
+
+    // Calculate grand totals for each solution
+    const grandTotalRow: { [key: string]: any } = { "Complaint Type": "Grand Total" };
+    uniqueSolutions.forEach(solution => {
+      grandTotalRow[solution] = complaintTypeTableData.reduce((sum, row) => sum + row[solution], 0);
+    });
+    grandTotalRow["Total"] = uniqueSolutions.reduce((sum, solution) => sum + grandTotalRow[solution], 0);
+
+    // Add the grand total row to the data array
+    complaintTypeTableData.push(grandTotalRow);
+
+    return { 'tableHeader': tableHeader, 'tableBody': complaintTypeTableData };
+  }
+
+
+  //********* Complaint *************//
+
   async getCountOfComplaint(){
-    console.log('table', this.params.Complaint);
     await this.service.complaintCountReport(this.params.Complaint).subscribe((data:any) => {
-
       const complaitData = this.formatDataForBarChartComplaint(data);
-      this.barChartLabelsComplaintCount = complaitData.labels;
-      this.barChartDataComplaintCount = complaitData.datasets;
-
-    });
-  }
-
-
-  async getCountOfComplaintTable(){
-    let complaint = {FromDate:"", ToDate:"", ComplaintType:""}
-    complaint.FromDate = "";
-    complaint.ToDate = "";
-    complaint.ComplaintType = '';
-    await this.service.complaintCountReport(complaint).subscribe((data:any) => {
-
-      this.uniqueComplaints = Array.from(new Set(data.map((item: any) => item.complaint)));
-      this.uniqueSolutions = Array.from(new Set(data.map((item: any) => item.solution)));
-      this.complaintData = data;
-    });
-  }
-
-
-
-  uniqueComplaints:any;
-  uniqueSolutions:any;
-
-  getTableComplaintDataFormate(solution: string, complaint: string){
-
-    const item = this.complaintData.find((d: any) => d.complaint === complaint && d.solution === solution);
-    return item ? item.count : 0;
-  }
-
-  getUniqueComplaintTypes(data: any[]): string[] {
-    return [...new Set(data.map(item => item.complaint_type))];
-  }
-
-  transformDataForChart(data: any[]): any[] {
-    const uniqueComplaintTypes = this.getUniqueComplaintTypes(data);
-
-    return uniqueComplaintTypes.map(complaintType => {
-      const filteredData = data.filter(item => item.complaint_type === complaintType);
-      const counts = filteredData.map(item => item.count);
-      return { data: counts, label: complaintType };
+      this.complaintChartLabels = complaitData.labels;
+      this.complaintChartData = complaitData.datasets;
     });
   }
 
@@ -656,21 +690,67 @@ export class HomePageComponent implements AfterViewInit  {
   }
 
 
+  async getCountOfComplaintTable(){
+    let complaint = {FromDate:"", ToDate:"", ComplaintType:"", Complaint:""};
+    /*complaint.FromDate = "";
+    complaint.ToDate = "";
+    complaint.ComplaintType = '';*/
+    await this.service.complaintCountReport(complaint).subscribe((data:any) => {
+      this.complaintTableData = this.formatComplaintTableData(data);
+    });
+  }
 
-  SKUbarChartData: { datasets: any[], labels: string[] } = { datasets: [], labels: [] };
 
-  barChartLegend = true;
-  SKUbarChartType = 'horizontalBar';
+  formatComplaintTableData(data: any) {
 
-  barChartLabelsSKU: string[] = [];
-  barChartDataSKU: any[] = [];
+    // Extract unique solutions for table headers
+    const uniqueSolutions: string[] = Array.from(new Set(data.map((item: any) => item.solution)));
+    const tableHeader: string[] = ["Complaint Type", ...uniqueSolutions, "Total"];
+
+    // Extract unique complaints
+    const uniqueComplaints: string[] = Array.from(new Set(data.map((item: any) => item.complaint)));
+
+    // Create formatted data
+    const formattedData = uniqueComplaints.map((complaintType) => {
+      const row: { [key: string]: any } = { "Complaint Type": complaintType };
+
+      // Initialize counts for each solution
+      uniqueSolutions.forEach(solution => {
+        row[solution] = this.getTableComplaintDataFormate(solution, complaintType, data);
+      });
+
+      // Calculate total count for the complaint type
+      row["Total"] = uniqueSolutions.reduce((sum, solution) => sum + row[solution], 0);
+
+      return row;
+    });
+
+    // Calculate grand totals for each solution
+    const grandTotalRow: { [key: string]: any } = { "Complaint Type": "Grand Total" };
+    uniqueSolutions.forEach(solution => {
+      grandTotalRow[solution] = formattedData.reduce((sum, row) => sum + row[solution], 0);
+    });
+    grandTotalRow["Total"] = uniqueSolutions.reduce((sum, solution) => sum + grandTotalRow[solution], 0);
+
+    // Add the grand total row to the formatted data array
+    formattedData.push(grandTotalRow);
+
+    // Set the formatted data for use in the template
+    return { 'tableHeader': tableHeader, 'tableBody': formattedData };
+  }
+
+  getTableComplaintDataFormate(solution: string, complaintType: string, data: any[]): number {
+    return data.filter(item => item.solution === solution && item.complaint === complaintType).length;
+  }
+
+
+  //********* SKU *************//
 
   async getSKUCountReport(){
-    console.log('this.params.SKU', this.params.SKU);
     await this.service.skuCountReport(this.params.SKU).subscribe((res:any) => {
       const complaitData = this.formatDataForBarChartsku(res);
-      this.barChartLabelsSKU = complaitData.labels;
-      this.barChartDataSKU = complaitData.datasets;
+      this.skuChartLabels = complaitData.labels;
+      this.skuChartData = complaitData.datasets;
     });
   }
 
@@ -723,6 +803,53 @@ export class HomePageComponent implements AfterViewInit  {
     this.getSKUCountReport();
   }
 
+  async getCountOfSKUTable(){
+    const SKU = {FromDate:this.params.SKU.FromDate, ToDate:this.params.SKU.ToDate, ComplaintType:"", Complaint:""};
+    await this.service.skuCountReport(SKU).subscribe((data:any) => {
+      this.skuTableData = this.formatSKUTableData(data);
+    });
+  }
+
+  formatSKUTableData(data: any) {
+    // Extract unique complaint types for table headers
+    const uniqueComplaintTypes: string[] = Array.from(new Set(data.map((item: any) => item.complaint)));
+    const tableHeader: string[] = ["SKU", ...uniqueComplaintTypes, "Total"];
+
+    // Extract unique SKUs
+    const uniqueSKUs: string[] = Array.from(new Set(data.map((item: any) => item.sku)));
+
+    // Create formatted data
+    const formattedData = uniqueSKUs.map((sku) => {
+        const row: { [key: string]: any } = { "SKU": sku };
+
+        // Initialize counts for each complaint type
+        uniqueComplaintTypes.forEach(complaintType => {
+            row[complaintType] = this.getTableSKUDataFormate(sku, complaintType, data);
+        });
+
+        // Calculate total count for the SKU
+        row["Total"] = uniqueComplaintTypes.reduce((sum, complaintType) => sum + row[complaintType], 0);
+
+        return row;
+    });
+
+    // Calculate grand totals for each complaint type
+    const grandTotalRow: { [key: string]: any } = { "SKU": "Grand Total" };
+    uniqueComplaintTypes.forEach(complaintType => {
+        grandTotalRow[complaintType] = formattedData.reduce((sum, row) => sum + row[complaintType], 0);
+    });
+    grandTotalRow["Total"] = uniqueComplaintTypes.reduce((sum, complaintType) => sum + grandTotalRow[complaintType], 0);
+
+    // Add the grand total row to the formatted data array
+    formattedData.push(grandTotalRow);
+
+    // Set the formatted data for use in the template
+    return { 'tableHeader': tableHeader, 'tableBody': formattedData };
+  }
+
+  getTableSKUDataFormate(sku: string, complaintType: string, data: any[]): number {
+      return data.filter(item => item.sku === sku && item.complaint === complaintType).length;
+  }
 
 
 }

@@ -10,7 +10,7 @@ import { DateConvertService } from '../../../services/date-convert-service/date-
   templateUrl: './chart-table.component.html',
   styleUrl: './chart-table.component.css'
 })
-export class ChartTableComponent implements AfterViewInit {
+export class ChartTableComponent {
 
   @Input() cardBackground:string = '';
   @Input() cardTitle:string = '';
@@ -28,28 +28,13 @@ export class ChartTableComponent implements AfterViewInit {
 
   constructor(
     public date:DateConvertService
-  ){
+  ){}
 
+  valueToParentParent(event:DateRange){
+    this.valueToParent.emit(event);
   }
 
-  ngAfterViewInit(): void {
-    flatpickr('#dateRangePicker'+this.cardAliasName, {
-      mode: 'range',
-      dateFormat: 'Y-m-d',
-      onChange: (selectedDates: Date[]) => {
-        const date:DateRange = this.date.onDateRangeChange(selectedDates);
-        if(date.FromDate !== '' && date.ToDate !== ''){
-          this.valueToParent.emit(date);
-          //console.log('Test', date);
-        }
 
-      },
-    });
-  }
-
-  getColumnHeaders(data: any): string[]{
-    return Object.keys(data);
-  }
 
 
 

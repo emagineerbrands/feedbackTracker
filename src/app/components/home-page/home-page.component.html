@@ -37,33 +37,11 @@
         <div class="col-md-3">
           <app-chart-table [chartOptions]="StackedbarChartOptions" [chartLegend]="true" [chartType]="'bar'" [chartData]="countryChartData" [chartLabels]="countryChartLabels" [chartTableData]="countryTableDataFormate" (valueToParent)="dateFromChild($event, 'Country')" [cardBackground]="cardBackgroundInfo" [cardTitle]="'Country'" [cardAliasName]="'country'" [canvaHeight]="300" ></app-chart-table>
         </div>
-        <!--<div class="col-md-6">
-          <app-chart-table [chartOptions]="StackedbarChartOptions" [chartLegend]="true" [chartType]="'bar'" [chartData]="countryChartData" [chartLabels]="countryChartLabels" [chartTableData]="countryTableDataFormate" (valueToParent)="dateFromChild($event, 'Complaint Type')" [cardBackground]="cardBackgroundInfo" [cardTitle]="'Complaint Type'" [cardAliasName]="'complaintType'" [canvaHeight]="300" ></app-chart-table>
-        </div> -->
 
         <div class="col-md-6">
           <div class="card card-info">
-            <div class="card-header">
-              <h3 class="card-title">Complaint Type</h3>
+            <app-card-chart-header class="bg-info" [cardTitle]="'Complaint Type'" [cardAliasName]="'complaint_type'" (valueToParent)="dateFromChild($event, 'Complaint Type')"></app-card-chart-header>
 
-              <div class="card-tools">
-                <ul class="nav nav-pills">
-                  <li class="nav-item">
-                    <a class="nav-link active" href="#complaintType-chart" data-toggle="tab">Chart</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#complaintType-table" data-toggle="tab">Table</a>
-                  </li>
-                  <li class="nav-item">
-                    <div class="input-group m-0">
-                      <button class="btn btn-tool btn-outline-secondary m-0" type="button" id="dateRangePickerComplaintType">
-                        <i class="fas fa-calendar-alt"></i>
-                      </button>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
             <div class="card-body p-0">
               <div class="row">
                 <div class="col-md-6 ">
@@ -80,28 +58,13 @@
               <div class="tab-content p-0">
                 <div class="chart tab-pane active p-3" id="complaintType-chart">
                   <div style="display: block">
-                    <canvas baseChart [datasets]="barChartDataComplaint" [labels]="barChartLabelsComplaint" [options]="barChartOptionsNoStack" [legend]="true" [type]="barChartType"> </canvas>
+                    <canvas baseChart [datasets]="complaintTypeChartData" [labels]="complaintTypeChartLabels" [options]="barChartOptionsNoStack" [legend]="true" [type]="barChartType"> </canvas>
                   </div>
                 </div>
                 <div class="chart tab-pane responsiveBody" id="complaintType-table" >
-                  <table *ngIf="complaintTypeColumns" class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th style="width: 10px">#</th>
-                        <th> Label </th>
-                        <th *ngFor="let complaint of complaintTypeColumns;"> {{ complaint }} </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <ng-container *ngFor="let solution of solutionRows; let solutionaIndex = index;">
-                        <tr>
-                          <td >{{ solutionaIndex+1 }}.</td>
-                          <td class="noWordWrap">{{ solution }}</td>
-                          <td *ngFor="let complaint of complaintTypeColumns;" >{{ getCOuntOfComplaintType(complaint, solution) }}</td>
-                        </tr>
-                      </ng-container>
-                    </tbody>
-                  </table>
+                  <ng-container *ngIf="complaintTypeTableData">
+                    <app-basic-table [tableInfo]="complaintTypeTableData"></app-basic-table>
+                  </ng-container>
                 </div>
               </div>
             </div>
@@ -111,27 +74,8 @@
         <!-- /.col-md -->
         <div class="col-md-12">
           <div class="card card-info">
-            <div class="card-header">
-              <h3 class="card-title">Complaint</h3>
+            <app-card-chart-header class="bg-info" [cardTitle]="'Complaint'" [cardAliasName]="'complaint'" (valueToParent)="dateFromChild($event, 'Complaint')"></app-card-chart-header>
 
-              <div class="card-tools">
-                <ul class="nav nav-pills">
-                  <li class="nav-item">
-                    <a class="nav-link active" href="#complaint-chart" data-toggle="tab">Chart</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#complaint-table" data-toggle="tab">Table</a>
-                  </li>
-                  <li class="nav-item">
-                    <div class="input-group m-0">
-                      <button class="btn btn-tool btn-outline-secondary m-0" type="button" id="dateRangePickerComplaintType">
-                        <i class="fas fa-calendar-alt"></i>
-                      </button>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
             <div class="card-body p-0">
               <div class="row">
                 <div class="col-md-6 ">
@@ -154,27 +98,14 @@
               <div class="tab-content p-0">
                 <div class="chart tab-pane active p-3" id="complaint-chart">
                   <div style="display: block">
-                    <canvas baseChart [datasets]="barChartDataComplaintCount" [labels]="barChartLabelsComplaintCount" [options]="barChartOptionsNoStackNoColor" [legend]="true" [type]="barChartType" height="70"> </canvas>
+                    <canvas baseChart [datasets]="complaintChartData" [labels]="complaintChartLabels" [options]="barChartOptionsNoStackNoColor" [legend]="true" [type]="barChartType" height="70"> </canvas>
                   </div>
                 </div>
                 <div class="chart tab-pane responsiveBody" id="complaint-table" >
-                  <table class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th style="width: 10px">#</th>
-                        <th *ngFor="let complaint of uniqueComplaints">{{ complaint }}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <ng-container *ngFor="let solution of uniqueSolutions; let usolutionaIndex = index;">
-                        <tr>
-                          <td >{{ usolutionaIndex+1 }}.</td>
-                          <td class="noWordWrap">{{ solution }}</td>
-                          <td *ngFor="let complaint of complaintTypeColumns;" >{{ getTableComplaintDataFormate(complaint, solution) }}</td>
-                        </tr>
-                      </ng-container>
-                    </tbody>
-                  </table>
+                  <ng-container *ngIf="complaintTableData">
+                    <app-basic-table [tableInfo]="complaintTableData"></app-basic-table>
+                  </ng-container>
+
                 </div>
               </div>
             </div>
@@ -184,27 +115,7 @@
         <!-- /.col-md -->
         <div class="col-md-12">
           <div class="card card-info">
-            <div class="card-header">
-              <h3 class="card-title">SKU</h3>
-
-              <div class="card-tools">
-                <ul class="nav nav-pills">
-                  <li class="nav-item">
-                    <a class="nav-link active" href="#sku-chart" data-toggle="tab">Chart</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#sku-table" data-toggle="tab">Table</a>
-                  </li>
-                  <li class="nav-item">
-                    <div class="input-group m-0">
-                      <button class="btn btn-tool btn-outline-secondary m-0" type="button" id="dateRangePickerComplaintType">
-                        <i class="fas fa-calendar-alt"></i>
-                      </button>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
+            <app-card-chart-header class="bg-info" [cardTitle]="'SKU'" [cardAliasName]="'sku'" (valueToParent)="dateFromChild($event, 'SKU')"></app-card-chart-header>
             <div class="card-body p-0">
               <div class="row">
                 <div class="col-md-6 ">
@@ -228,27 +139,13 @@
               <div class="tab-content p-0">
                 <div class="chart tab-pane active p-3" id="sku-chart">
                   <div style="display: block">
-                    <canvas baseChart [datasets]="barChartDataSKU" [labels]="barChartLabelsSKU" [options]="SKUbarChartOptionsNoStack" [legend]="true" [type]="'bar'" height="100"  > </canvas>
+                    <canvas baseChart [datasets]="skuChartData" [labels]="skuChartLabels" [options]="SKUbarChartOptionsNoStack" [legend]="true" [type]="'bar'" height="100"  > </canvas>
                   </div>
                 </div>
                 <div class="chart tab-pane responsiveBody" id="sku-table" >
-                  <table class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th style="width: 10px">#</th>
-                        <th *ngFor="let complaint of uniqueComplaints">{{ complaint }}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <ng-container *ngFor="let solution of uniqueSolutions; let usolutionaIndex = index;">
-                        <tr>
-                          <td >{{ usolutionaIndex+1 }}.</td>
-                          <td class="noWordWrap">{{ solution }}</td>
-                          <td *ngFor="let complaint of complaintTypeColumns;" >{{ getTableComplaintDataFormate(complaint, solution) }}</td>
-                        </tr>
-                      </ng-container>
-                    </tbody>
-                  </table>
+                  <ng-container *ngIf="skuTableData">
+                    <app-basic-table [tableInfo]="skuTableData"></app-basic-table>
+                  </ng-container>
                 </div>
               </div>
             </div>

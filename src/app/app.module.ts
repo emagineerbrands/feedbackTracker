@@ -23,6 +23,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { PaginationComponent } from './components/particals/pagination/pagination.component';
 import { ConfirmationCheckComponent } from './components/model-popup/confirmation-check/confirmation-check.component';
+import { BasicTableComponent } from './components/particals/basic-table/basic-table.component';
+import { CardChartHeaderComponent } from './components/particals/card-chart-header/card-chart-header.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { ConfirmationCheckComponent } from './components/model-popup/confirmatio
     FeedbackFiltersComponent,
     DateRangePickerComponent,
     PaginationComponent,
-    ConfirmationCheckComponent
+    ConfirmationCheckComponent,
+    BasicTableComponent,
+    CardChartHeaderComponent
   ],
   imports: [
     BrowserModule,
