@@ -1,0 +1,243 @@
+<div class="content-wrapper">
+  <app-bread-crumbs [Title]="pageTitle" [list]="breadCrumbList"></app-bread-crumbs>
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-body">
+            <div class="row">
+              <div class="form-group col-sm-2 mb-0 responsivefilter">
+                <input type="text" class="form-control" [(ngModel)]="returns.order_number" placeholder="Order Number"  (input)="filterTickets()" >
+              </div>
+              <div class="form-group col-sm-2 mb-0 responsivefilter">
+                <input type="text" class="form-control" [(ngModel)]="returns.store_name" placeholder="Store Name" (input)="filterTickets()" >
+              </div>
+              <div class="form-group col-sm-2 mb-0 responsivefilter">
+                <select class="form-control colorSelect " [(ngModel)]="returns.modifiedBy" (change)="filterTickets()" >
+                  <option value="0"> Select Agent </option>
+                  <ng-container *ngFor="let option of this.usersList">
+                    <option *ngIf="option.name != ''" value="{{ option.id }}">{{ option.name }}</option>
+                  </ng-container>
+                </select>
+              </div>
+              <div class="form-group col-sm-3 mb-0 responsivefilter">
+                <div class="input-group">
+                  <input
+                    class="form-control"
+                    placeholder="From"
+                    ngbDatepicker
+                    #fromDateDp="ngbDatepicker"
+                    [(ngModel)]="fromDate"
+                    (ngModelChange)="onDateRangeChange()"
+                    (click)="fromDateDp.toggle()"
+                  />
+                  <input
+                    class="form-control"
+                    placeholder="To"
+                    ngbDatepicker
+                    #toDateDp="ngbDatepicker"
+                    [(ngModel)]="toDate"
+                    (ngModelChange)="onDateRangeChange()"
+                    (click)="toDateDp.toggle()"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group col-sm-2 mb-0 responsivefilter">
+                <select class="form-control colorSelect" [(ngModel)]="returns.status" (change)="filterTickets()" >
+                  <option value="0">Select Status</option>
+                  <option value="0">All</option>
+                  <ng-container *ngFor="let option of this.statusOptions">
+                    <option value="{{ option.id }}">{{ option.name }}</option>
+                  </ng-container>
+                </select>
+              </div>
+              <div class="form-group col-sm-1 mb-0 pl-0 pr-0 responsivefilter responsivefilterButton">
+                <button type="button" *ngIf="checkParamsSearch()" [ngbTooltip]="'Clear'" (click)="clearAll()" class=" btn btn-danger button-red">Clear</button>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header bg-white">
+              <h3 class="card-title mt-2">Returns Details</h3>
+              <div class="float-right d-flex">
+                <button type="button" (click)="navigateUrlToBlank()" class="btn button-blue text-white">New Order</button>
+                <button type="button" (click)="navigateUrl('returns_order_search')" class="btn button-blue ml-2 text-white">Search Order</button>
+                <app-download-option (downloadType)="exportData($event)"></app-download-option>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0 responsiveBodyTable positionRelative">
+              <ng-container>
+                <div class="overlay-wrapper" *ngIf="searchResultsLoader">
+                  <div class="overlay">
+                    <img class="fas fa-3x fa-sync-alt fa-spin LoadIcon" src="assets/dist/img/icons/loader-Icon.png" >
+
+                    <div class="text-bold pt-2">Loading...</div>
+                  </div>
+                </div>
+              </ng-container>
+              <table class="table " *ngIf="ticketsList.length > 0; else noRecordsFound">
+                <thead class="positionRelative">
+                  <tr>
+                    <th width="10px"></th>
+                    <th class="handCursor" (click)="onSort('id')" >
+                      ID
+                      <span class="sorting_icon"  [ngClass]="{'sorting_desc': returns.sort_name === 'id' && returns.isAscending, 'sorting_asc': returns.sort_name === 'id' && !returns.isAscending}"></span>
+                    </th>
+                    <th class="handCursor noWordWrap" (click)="onSort('order_number')" >
+                      Order Number
+                      <span class="sorting_icon" [ngClass]="{'sorting_desc': returns.sort_name === 'order_number' && returns.isAscending, 'sorting_asc': returns.sort_name === 'order_number' && !returns.isAscending}"></span>
+                    </th>
+                    <th> Store Name </th>
+                    <th> Items Returned </th>
+                    <th>Agent </th>
+                    <th class="handCursor noWordWrap" (click)="onSort('date')"   >
+                      Created Date
+                      <span class="sorting_icon" [ngClass]="{'sorting_desc': returns.sort_name === 'date' && returns.isAscending, 'sorting_asc': returns.sort_name === 'date' && !returns.isAscending}"></span>
+                    </th>
+                    <th>Status </th>
+                    <th>View</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody class="positionRelative">
+
+                  <ng-container *ngFor="let ticket of ticketsList; let tIndex = index;" >
+                    <tr width="10px" [class.activeTicketRow]="ticket.expandData">
+                      <td>
+                        <img *ngIf="ticket.ticket_details.length > 1" class="btn dropdownIcon" (click)="toggleGroupOrders(tIndex)" src="assets/dist/img/icons/down-arrow.png">
+                      </td>
+                      <td><a>{{ ticket.latest_ticket_id }}</a></td>
+                      <td><a class="text-primary handCursor" (click)="onEdit(ticket.latest_ticket_id)">{{ ticket.order_number }}</a></td>
+                      <td>{{ ticket.json_data.storeName  }}</td>
+                      <td><a>{{ ticket.json_data.quantityReturnedInTotal ?? 0 }}</a></td>
+
+                      <td>{{ ticket.modified_by }}</td>
+                      <td>{{ ticket.modified_date | formatDate:'shortDate' }}</td>
+                      <td style="overflow:hidden;" [ngClass]="{'bgclosed':ticket.status == 'Solved','bginprogress':ticket.status == 'Pending'}">
+                        <small>
+                          {{ ticket.status }}
+                        </small>
+                      </td>
+                      <td class="project-actions handCursor" >
+                        <span (click)="onEdit(ticket.latest_ticket_id)"><i class="fas fa-eye"></i></span>
+                        <span *ngIf="ticket.json_data.fileUrls?.length > 0" class="ml-1"> <i class="fas fa-camera"></i></span>
+                      </td>
+                      <td class="handCursor">
+                        <span (click)="deleteTicket(ticket.latest_ticket_id, ticket.order_number)"><i class="fas fa-trash"></i></span>
+                      </td>
+                    </tr>
+                    <ng-container *ngFor="let subTicket of ticket.ticket_details; let ticketIndex=index;" >
+                      <tr width="10px" *ngIf="subTicket.id != ticket.latest_ticket_id" class="collaspe" [class.d-none]="!ticket.expandData" style="border-left: 2px solid blue;">
+                        <td class="subTicketsList"></td>
+                        <td class="subTicketsList"><a>{{ subTicket.id }}</a></td>
+                        <td class="subTicketsList"><a class="text-primary handCursor" (click)="onEdit(subTicket.id)" >{{ ticket.order_number }}</a></td>
+                        <td class="subTicketsList">{{ ticket.json_data.storeName }}</td>
+                        <td class="subTicketsList"><a>{{ ticket.json_data.quantityReturnedInTotal ?? 0 }}</a></td>
+
+                        <td class="subTicketsList">{{ subTicket.created_by }}</td>
+                        <td class="subTicketsList">{{ subTicket.modified_date | formatDate:'shortDate' }}</td>
+                        <td class="subTicketsList" style="overflow:hidden;" [ngClass]="{'bgclosed':subTicket.status == 'Solved','bginprogress':subTicket.status == 'Pending'}">
+                          <small>
+                            {{ subTicket.status }}
+                          </small>
+                        </td>
+                        <td class="project-actions subTicketsList handCursor" >
+                          <span (click)="onEdit(subTicket.id)"><i class="fas fa-eye"></i></span>
+                          <span *ngIf="subTicket.json_data.fileUrls?.length > 0" class="ml-1"> <i class="fas fa-camera"></i></span>
+
+                        </td>
+                        <td  class="subTicketsList handCursor">
+                          <span (click)="deleteTicket(subTicket.id, ticket.order_number)"><i class="fas fa-trash"></i></span>
+                          <!-- <span *ngIf="subTicket.json_data.fileUrls?.length > 0" class="ml-1"><i class="fas fa-camera"></i></span> -->
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </ng-container>
+
+
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer clearfix">
+              <div class="card-tools float-left">
+                <ul class="pagination">
+                  <li class="page-item">
+                    <a class="page-link text-blue handCursor" [class.disabled]="returns.currentPage === 1" (click)="onPageChange(returns.currentPage - 1)">« Previous</a>
+                  </li>
+
+                  <!-- Always display the first page -->
+                  <li  class="page-item" (click)="onPageChange(1)">
+                    <a class="page-link text-blue handCursor" [class.active]="1 === returns.currentPage">1</a>
+                  </li>
+
+                  <!-- Display "..." if there are more pages to the left -->
+                  <ng-container *ngIf="returns.currentPage > 3">
+                    <li class="page-item">
+                      <span class="page-link">...</span>
+                    </li>
+                  </ng-container>
+
+                  <!-- Display pages based on the current page and total pages -->
+                  <ng-container *ngFor="let page of returns.pagesToDisplay">
+                    <li *ngIf="page != 1 && returns.totalPages != page" class="page-item" (click)="onPageChange(page)">
+                      <a class="page-link text-blue handCursor" [class.active]="page === returns.currentPage">{{ page }}</a>
+                    </li>
+                  </ng-container>
+
+                  <!-- Display "..." if there are more pages to the right -->
+                  <ng-container *ngIf="returns.currentPage < returns.totalPages - 2">
+                    <li class="page-item">
+                      <span class="page-link">...</span>
+                    </li>
+                  </ng-container>
+
+                  <!-- Always display the last page -->
+                  <li *ngIf="returns.totalPages != 0 && returns.totalPages != 1" class="page-item" (click)="onPageChange(returns.totalPages)">
+                    <a class="page-link text-blue handCursor" [class.active]="returns.totalPages === returns.currentPage">{{ returns.totalPages }}</a>
+                  </li>
+
+                  <li class="page-item">
+                    <a class="page-link text-blue handCursor" [class.disabled]="returns.currentPage === returns.totalPages" (click)="onPageChange(returns.currentPage + 1)">Next »</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="float-right d-none d-sm-block mr-3">
+                <div class="float-right d-none d-sm-block colorSelect ml-1">
+                  Total Records: <b>{{ returns.totalRecords }}</b>
+                </div>
+                <select  (change)="filterTickets()" [(ngModel)]="this.returns.recordsPerPage" class="colorSelect">
+                  <!--<option value="1">1 Records</option>-->
+                  <option value="10">10 Records</option>
+                  <option value="25">25 Records</option>
+                  <option value="50">50 Records</option>
+                  <option value="100">100 Records</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <!-- /.card -->
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+
+      <!-- /.row -->
+
+      <!-- /.row -->
+
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+<ng-template  #noRecordsFound>
+  <p *ngIf="!searchResultsLoader" class="text-center">No records Found..!</p>
+</ng-template>

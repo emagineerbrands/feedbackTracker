@@ -1,0 +1,8 @@
+.nav-link{
+  color:white;
+}
+.nav-link:hover,
+.nav-link:focus,
+.nav-link:active{
+  color: #ced4da !important;
+}

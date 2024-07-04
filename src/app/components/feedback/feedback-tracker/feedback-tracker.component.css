@@ -1,0 +1,17 @@
+.orderDetails ul{
+  list-style: none;
+}
+.uploadImageDiv{
+  position: relative;
+}
+
+.uploadImageDiv img{
+  max-height: 130px;
+  width: 100%;
+}
+
+.uploadImageDiv div{
+  position: absolute;
+  left: -10px;
+  top: 8px;
+}

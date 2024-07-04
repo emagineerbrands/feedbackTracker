@@ -1,0 +1,19 @@
+.home-bg{
+    background-color: black;
+    color: white;
+    h1{
+        padding: 20px 0 20px 5px;
+    }
+}
+.card{
+  //   position: absolute;
+  // top: 167px;
+  // z-index: 0;
+  background-color: white;
+  .content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}

@@ -1,0 +1,20 @@
+<table class="table table-bordered" *ngIf="tableInfo">
+  <thead>
+    <tr>
+      <th style="width: 10px">#</th>
+      <ng-container *ngFor="let header of tableInfo.tableHeader" >
+        <th class="noWordWrap"> {{ header }} </th>
+      </ng-container>
+    </tr>
+  </thead>
+  <tbody>
+
+      <tr *ngFor="let data of tableInfo.tableBody; let tableIndex = index;">
+        <td>{{ tableIndex+1 }}.</td>
+        <ng-container *ngFor="let column of getColumnHeaders(data)">
+          <td class="noWordWrap">{{ data[column] }}</td>
+        </ng-container>
+      </tr>
+
+  </tbody>
+</table>

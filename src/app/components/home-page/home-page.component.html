@@ -1,0 +1,180 @@
+<div class="content-wrapper">
+  <app-bread-crumbs [Title]="pageTitle" [list]="breadCrumbList"></app-bread-crumbs>
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-3 col-6">
+          <app-small-box [count]="assigneecardCount" [title]="'Status'" [bgColor]="'bg-info'" [icon]="'ion ion-bag'" ></app-small-box>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <app-small-box [count]="returncardCount" [title]="'Returns'" [bgColor]="'bg-success'" [icon]="'fas fa-shopping-cart'" ></app-small-box>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <app-small-box [count]="sourcecardCount" [title]="'Pending from Gorgias'" [bgColor]="'bg-warning'" [icon]="'far fa-bookmark'" ></app-small-box>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <app-small-box [count]="miocardCount" [title]="'Total MIO'" [bgColor]="'bg-danger'" [icon]="'ion ion-pie-graph'" ></app-small-box>
+        </div>
+        <!-- ./col -->
+        <!--<div class="col-lg-3 col-6">
+          <app-small-box [count]="countrycardCount" [title]="'Country'" [bgColor]="'bg-primary'" [icon]="'far fa-flag'" ></app-small-box>
+        </div>
+
+        <div class="col-lg-3 col-6">
+          <app-small-box [count]="complaintTypecardCount" [title]="'Complaint Type'" [bgColor]="'bg-secondary'" [icon]="'fas fa-file'" ></app-small-box>
+        </div>
+
+        <div class="col-lg-3 col-6">
+          <app-small-box [count]="complaintcardCount" [title]="'Complaint'" [bgColor]="'bg-lightblue'" [icon]="'far fa-copy'" ></app-small-box>
+        </div>
+
+        <div class="col-lg-3 col-6">
+          <app-small-box [count]="skucardCount" [title]="'SKU'" [bgColor]="'bg-olive'" [icon]="'icon fas fa-info'" ></app-small-box>
+        </div>-->
+
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <app-chart-table [chartOptions]="StackedbarChartOptions" [chartLegend]="true" [chartType]="'bar'" [chartData]="assigneeChartData" [chartTableData]="assigneeData" [chartLabels]="assigneeChartLabels" (valueToParent)="dateFromChild($event, 'Assignee')" [cardBackground]="cardBackgroundInfo" [cardTitle]="'Assignee'" [cardAliasName]="'assignee'" [canvaHeight]="200" [chartDataExist]="assigneeDataExist" [heightClass]="'height355'"></app-chart-table>
+        </div>
+        <div class="col-md-3">
+          <app-chart-table [chartOptions]="pieChartOptions" [chartLegend]="true" [chartType]="'pie'" [chartData]="returnChartData" [chartLabels]="returnChartLabels" [chartTableData]="returnTableDataFormate" (valueToParent)="dateFromChild($event, 'Return')" [cardBackground]="cardBackgroundInfo" [cardTitle]="'Return'" [cardAliasName]="'return'" [chartDataExist]="returnDataExist" [heightClass]="'height355'"></app-chart-table>
+        </div>
+        <div class="col-md-5">
+          <app-chart-table [chartOptions]="StackedbarChartOptions" [chartLegend]="true" [chartType]="'bar'" [chartData]="sourceChartData" [chartLabels]="sourceChartLabels" [chartTableData]="sourceTableDataFormate" (valueToParent)="dateFromChild($event, 'Source')" [cardBackground]="cardBackgroundInfo" [cardTitle]="'Source'" [cardAliasName]="'source'" [chartDataExist]="sourceDataExist" [heightClass]="'height355'"></app-chart-table>
+        </div>
+        <div class="col-md-3">
+          <app-chart-table [chartOptions]="StackedbarChartOptions" [chartLegend]="true" [chartType]="'bar'" [chartData]="mioChartData" [chartLabels]="mioChartLabels" [chartTableData]="mioTableDataFormate" (valueToParent)="dateFromChild($event, 'MIO')" [cardBackground]="cardBackgroundInfo" [cardTitle]="'MIO'" [cardAliasName]="'mio'" [canvaHeight]="390" [chartDataExist]="mioDataExist" [heightClass]="'height442'" ></app-chart-table>
+        </div>
+        <div class="col-md-3">
+          <app-chart-table [chartOptions]="StackedbarChartOptions" [chartLegend]="true" [chartType]="'bar'" [chartData]="countryChartData" [chartLabels]="countryChartLabels" [chartTableData]="countryTableDataFormate" (valueToParent)="dateFromChild($event, 'Country')" [cardBackground]="cardBackgroundInfo" [cardTitle]="'Country'" [cardAliasName]="'country'" [canvaHeight]="390" [chartDataExist]="countryDataExist" [heightClass]="'height442'" ></app-chart-table>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card card-info height442">
+            <app-card-chart-header class="bg-info" [cardTitle]="'Complaint Type'" [cardAliasName]="'complaint_type'" (valueToParent)="dateFromChild($event, 'Complaint Type')"></app-card-chart-header>
+            <div class="card-body p-0">
+              <div class="tab-content p-0">
+                <div class="chart tab-pane active p-3" id="complaint_type-chart">
+                  <div class="row">
+                    <div class="col-md-6 ">
+                      <div class="form-group paddingLeft-10">
+                        <label>Solution</label>
+                        <select class="form-control" [(ngModel)]="params.ComplaintType.Solution" (change)="getComplaintTypeCount()">
+                          <ng-container *ngIf="this.internalService.dropdownDataExist">
+                            <option *ngFor="let solution of this.internalService.dropdownData.Solutions;" value="{{ solution.id }}"> {{ solution.solution }}</option>
+                          </ng-container>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="complaintTypeDataExist; else noDataTemplate" style="display: block">
+                    <canvas baseChart [datasets]="complaintTypeChartData" [labels]="complaintTypeChartLabels" [options]="barChartOptionsNoStackNoColor" [legend]="true" [type]="barChartType"> </canvas>
+                  </div>
+
+                </div>
+                <div class="chart tab-pane responsiveBody" id="complaint_type-table" >
+                  <ng-container *ngIf="complaintTypeTableData">
+                    <app-basic-table [tableInfo]="complaintTypeTableData"></app-basic-table>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+        </div>
+        <!-- /.col-md -->
+        <div class="col-md-12">
+          <div class="card card-info">
+            <app-card-chart-header class="bg-info" [cardTitle]="'Complaint'" [cardAliasName]="'complaint'" (valueToParent)="dateFromChild($event, 'Complaint')"></app-card-chart-header>
+
+            <div class="card-body p-0">
+
+              <div class="tab-content p-0">
+                <div class="chart tab-pane active p-3" id="complaint-chart">
+                  <div class="row">
+                    <div class="col-md-6 ">
+                      <div class="form-group paddingLeft-10" *ngIf="this.staticData">
+                        <label>Complaint Type</label>
+                        <select class="form-control" [(ngModel)]="params.Complaint.ComplaintType" (change)="selectComplaint($event)">
+                          <option *ngFor="let complaintTypeName of this.staticData.complaint;" value="{{ complaintTypeName.complaint_id }}"> {{ complaintTypeName.complaint_name }}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6 ">
+                      <div class="form-group paddingLeft-10">
+                        <label>Complaint</label>
+                        <select multiple class="form-control select2"  data-placeholder="Select Complaint" >
+                          <option *ngFor="let complaintName of complaint;" value="{{ complaintName.id }}">{{ complaintName.name }}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="complaintDataExist; else noDataTemplate"  style="display: block">
+                    <canvas baseChart [datasets]="complaintChartData" [labels]="complaintChartLabels" [options]="barChartOptionsNoStackNoColor" [legend]="true" [type]="barChartType" height="70"> </canvas>
+                  </div>
+                </div>
+                <div class="chart tab-pane responsiveBody" id="complaint-table" >
+                  <ng-container *ngIf="complaintTableData">
+                    <app-basic-table [tableInfo]="complaintTableData"></app-basic-table>
+                  </ng-container>
+
+                </div>
+              </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+        </div>
+        <!-- /.col-md -->
+        <div class="col-md-12">
+          <div class="card card-info">
+            <app-card-chart-header class="bg-info" [cardTitle]="'SKU'" [cardAliasName]="'sku'" (valueToParent)="dateFromChild($event, 'SKU')"></app-card-chart-header>
+            <div class="card-body p-0">
+
+              <div class="tab-content p-0">
+                <div class="chart tab-pane active p-3" id="sku-chart">
+                  <div class="row">
+                    <div class="col-md-6 ">
+                      <div class="form-group paddingLeft-10" *ngIf="staticData">
+                        <label>Complaint Type</label>
+                        <select class="form-control" [(ngModel)]="params.SKU.ComplaintType" (change)="changeSKUParams($event)">
+                          <option *ngFor="let complaintName of staticData.complaint;" value="{{ complaintName.complaint_id }}"> {{ complaintName.complaint_name }}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6 ">
+                      <div class="form-group paddingLeft-10">
+                        <label>Complaint</label>
+                        <select multiple class="form-control select2SKU" data-placeholder="Select Complaint">
+                          <option *ngFor="let complaintName of skuComplaint;" value="{{ complaintName.id }}">{{ complaintName.name }}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="skuDataExist; else noDataTemplate" style="display: block">
+                    <canvas baseChart [datasets]="skuChartData" [labels]="skuChartLabels" [options]="SKUbarChartOptionsNoStack" [legend]="true" [type]="'bar'" [height]="(skuChartLabels.length > 5) ? skuChartLabels.length * 7 : Numbers.FIFTY"  > </canvas>
+                  </div>
+                </div>
+                <div class="chart tab-pane responsiveBody" id="sku-table" >
+                  <ng-container *ngIf="skuTableData">
+                    <app-basic-table [tableInfo]="skuTableData"></app-basic-table>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+        </div>
+        <!-- /.col-md -->
+      </div>
+    </div>
+  </section>
+</div>
+<ng-template #noDataTemplate>
+  <div  class="text-center">
+    <p>No Data Found..!</p>
+  </div>
+</ng-template>

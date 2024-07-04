@@ -1,0 +1,32 @@
+.small-box .icon > i.fa, .small-box .icon > i.fab, .small-box .icon > i.fad, .small-box .icon > i.fal, .small-box .icon > i.far, .small-box .icon > i.fas, .small-box .icon > i.ion{
+  top: 10px;
+}
+.card-title{
+  font-size: medium;
+}
+.paddingLeft-10{
+  padding-left: 10px;
+}
+.nav-link:hover,
+.nav-link:focus,
+.nav-link:active{
+  color: #ced4da !important;
+}
+@media (min-width: 1200px) {
+  .height355 {
+      height: 355px; /* Adjusted height for large screens */
+  }
+  .height442 {
+      height: 442px; /* Adjusted height for large screens */
+  }
+}
+
+/* Extra large screens - min-width 1200px */
+@media (min-width: 1420px) {
+  .height355 {
+    height: 490px; /* Adjusted height for large screens */
+  }
+  .height442 {
+    height: 600px; /* Adjusted height for large screens */
+}
+}
