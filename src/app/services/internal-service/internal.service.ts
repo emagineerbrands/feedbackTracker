@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { User } from '../../interface/User';
 import { StaticDropdown } from '../../interface/StaticDropdown';
+import { User } from '../../interface/User';
 import { Router } from '@angular/router';
-import { PaginationParams } from '../../interface/PaginationParams';
-import { SKUGroup } from '../../models/skuGroup.interface';
 import { FeedbackService } from '../feedback-service/feedback.service';
+import { SKUGroup } from '../../models/skuGroup.interface';
 import { CallLogs } from '../../interface/CallLogs';
+import { PaginationParams } from '../../interface/PaginationParams';
 
 @Injectable({
   providedIn: 'root'
@@ -145,10 +145,10 @@ export class InternalService {
   deliveryGuaranteeExist:boolean = false;
 
   getInvalidSKU(pageId:number, itemSKU:string):boolean {
-    const skuData = this.dropdownData.InvalidSKUs.find(sku => sku.page_id == pageId);
+    const skuData = this.dropdownData.InvalidSKUs.find((sku:any) => sku.page_id == pageId);
     if (skuData && skuData.sku.length > 0) {
       // Check if the provided itemSKU matches any SKU in the skuData's sku array
-      return !skuData.sku.some((skuObj: { sku: string; }) => skuObj.sku == itemSKU);
+      return !skuData.sku.some((skuObj:any) => skuObj.sku == itemSKU);
     }
     return true;
   }
@@ -198,7 +198,7 @@ export class InternalService {
 
 
   //Page Navigation
-  navigatePage(page: any){
+  navigatePage(page:string){
     this.router.navigate([page]);
   }
 
@@ -206,7 +206,7 @@ export class InternalService {
   getNameFromComplaintList(complaintId:string): string {
     const id = Number(complaintId);
     if (!isNaN(id) && complaintId !== '') {
-    const complaint = this.dropdownData.Complaint.find(complaint => Number(complaint.complaint_id) === id);
+    const complaint = this.dropdownData.Complaint.find((complaint:any) => Number(complaint.complaint_id) === id);
 
     return complaint ? complaint.complaint_name : 'Not Found';
     }else{
@@ -218,7 +218,7 @@ export class InternalService {
     const id = Number(complaintType);
     if (!isNaN(id) && complaintType !== '') {
       //console.log('this.dropdownData.ComplaintType', this.dropdownData.ComplaintType);
-      const complaint = this.dropdownData.ComplaintType.find(complaint => Number(complaint.id) === id);
+      const complaint = this.dropdownData.ComplaintType.find((complaint:any) => Number(complaint.id) === id);
       return complaint ? complaint.name : 'Not Found';
     }else{
       return complaintType;
@@ -228,7 +228,7 @@ export class InternalService {
   getNameFromAssignee(assigneeId:string):string{
     const id = Number(assigneeId);
     if (!isNaN(id) && assigneeId !== '') {
-      const assignee = this.dropdownData.Assignee.find(asg => (asg.id == id));
+      const assignee = this.dropdownData.Assignee.find((asg:any) => (asg.id == id));
       return assignee ? assignee.assigned : 'Not Found';
     }else{
       return assigneeId;
@@ -238,7 +238,7 @@ export class InternalService {
   getNameFromSolution(solutionId:any){
     const id = Number(solutionId);
     if (!isNaN(id) && solutionId !== '') {
-      const solution = this.dropdownData.Solutions.find(sol => (sol.id == id));
+      const solution = this.dropdownData.Solutions.find((sol:any) => (sol.id == id));
       return solution ? solution.solution : 'Not Found';
     }else{
       return solutionId;
@@ -248,7 +248,7 @@ export class InternalService {
   getNameFromStamp1(stamp1Id:any){
     const id = Number(stamp1Id);
     if (!isNaN(id) && stamp1Id !== '') {
-      const stamp1 = this.dropdownData.StampOne.find(st => (st.id == id));
+      const stamp1 = this.dropdownData.StampOne.find((st:any) => (st.id == id));
       return stamp1 ? stamp1.stamp_name : 'Not Found';
     }else{
       return stamp1Id;
@@ -258,7 +258,7 @@ export class InternalService {
   getNameFromStamp2(stamp2Id:any){
     const id = Number(stamp2Id);
     if (!isNaN(id) && stamp2Id !== '') {
-      const stamp2 = this.dropdownData.StampTwo.find(st => (st.id == id));
+      const stamp2 = this.dropdownData.StampTwo.find((st:any) => (st.id == id));
       return stamp2 ? stamp2.stamp2 : 'Not Found';
     }else{
       return stamp2Id;
@@ -268,7 +268,7 @@ export class InternalService {
   getNameFromShipping(shippingId:any){
     const id = Number(shippingId);
     if (!isNaN(id) && shippingId !== '') {
-      const shipping = this.dropdownData.Shipping.find(sp => (sp.id == id));
+      const shipping = this.dropdownData.Shipping.find((sp:any) => (sp.id == id));
       return shipping ? shipping.stamp2 : 'Not Found';
     }else{
       return shippingId;
@@ -278,7 +278,7 @@ export class InternalService {
   getNameFromSource(sourceId:any){
     const id = Number(sourceId);
     if (!isNaN(id) && sourceId !== '') {
-      const source = this.dropdownData.Source.find(sp => (sp.id == id));
+      const source = this.dropdownData.Source.find((sp:any) => (sp.id == id));
       return source ? source.source : 'Not Found';
     }else{
       return sourceId;
@@ -288,7 +288,7 @@ export class InternalService {
   getNameFromPickup(pId:any){
     const id = Number(pId);
     if (!isNaN(id) && pId !== 0) {
-      const pickup = this.dropdownData.CallsPickedUp.find(sp => (sp.Id == id));
+      const pickup = this.dropdownData.CallsPickedUp.find((sp:any) => (sp.Id == id));
       return pickup ? pickup.Picked_up : '';
     }else{
       return '';
@@ -297,7 +297,7 @@ export class InternalService {
   getNameFromReaction(rId:any){
     const id = Number(rId);
     if (!isNaN(id) && rId !== '') {
-      const reaction = this.dropdownData.ReactionLevel.find(sp => (sp.Id == id));
+      const reaction = this.dropdownData.ReactionLevel.find((sp:any) => (sp.Id == id));
       return reaction ? reaction.Reaction_level : '';
     }else{
       return '';
@@ -306,7 +306,7 @@ export class InternalService {
   getNameFromEditedAssisted(eaId:any){
     const id = Number(eaId);
     if (!isNaN(id) && eaId !== '') {
-      const edited = this.dropdownData.OrderEdited.find(sp => (sp.Id==id));
+      const edited = this.dropdownData.OrderEdited.find((sp:any) => (sp.Id==id));
       return edited ? edited.OrderEdited_or_assistance : '';
     }else{
       return '';
@@ -429,7 +429,7 @@ export class InternalService {
   }
 
 
-  initializeDateParams(params : any) {
+  initializeDateParams(params:any) {
     const currentDate = new Date();
     const previousMonthDate = new Date();
     previousMonthDate.setMonth(currentDate.getMonth() - 1);

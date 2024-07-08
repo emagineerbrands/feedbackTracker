@@ -1,12 +1,13 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, map, catchError } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { APIEndpoints } from '../api-endpoints/api-endpoints';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { DateRange } from '../../interface/DateRange';
 import { FeedbackFilters } from '../../interface/FeedbackFilters';
 import { PaginationParams } from '../../interface/PaginationParams';
 import { ShortParams } from '../../interface/ShortParams';
+import { environment } from '../../../environments/environment';
+import { APIEndpoints } from '../api-endpoints/api-endpoints';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class FeedbackService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getTicketsOld(recordsPerPage:number, pageOffset:number, sortName:string, sortType:string, fromDate:string | null, toDate:string | null, orderNumber: any | number, status:number, complaint:string, download:boolean, agent:number, aggignee:string):Observable<any>{
+  getTicketsOld(recordsPerPage:number, pageOffset:number, sortName:string, sortType:string, fromDate:string | null, toDate:string | null, orderNumber:any, status:number, complaint:string, download:boolean, agent:number, aggignee:string):Observable<any>{
     let params:string = `page_size=${recordsPerPage}&page_offset=${pageOffset}&sort_name=${sortName}&sort_type=${sortType}`;
     params += ((fromDate !== '') && (toDate !== '')) ? `&start_date=${fromDate}&end_date=${toDate}` : '';
     params += ((orderNumber != '') && (!isNaN(orderNumber) && (typeof Number(orderNumber) === 'number'))) ? `&order_number=${orderNumber}` : '';
@@ -187,7 +188,7 @@ export class FeedbackService {
     }
   }
 
-  userInactivate(data: any){
+  userInactivate(data:any){
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.httpClient.post<any>(APIEndpoints.logtypefeedbackUrl.inactivateUser, data, { headers });
   }
@@ -262,4 +263,3 @@ export class FeedbackService {
   }
 
 }
-

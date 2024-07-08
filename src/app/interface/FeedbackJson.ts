@@ -1,4 +1,4 @@
-import { FeedbackSKUGroup } from "./FeedbackSKUGroup";
+import { FeedbackSKUGroup } from "./FeedbackSKUGroup"
 
 export interface FeedbackJson{
   orderId:string;

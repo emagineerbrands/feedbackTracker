@@ -1,5 +1,5 @@
-import { Complaint } from "./complaint.interface";
 import { Complaints } from "./complaints.interface";
+import { Complaint } from "./complaint.interface";
 import { SKUGroupErrors } from "./skuGroupErrors.interface";
 import { Solutions } from "./solutions.interface";
 
