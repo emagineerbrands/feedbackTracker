@@ -27,8 +27,11 @@
     "express": "^4.18.2",
     "ngx-image-compress": "^15.1.6",
     "ngx-toastr": "^19.0.0",
+    "ngx-webcam": "^0.4.1",
+    "qs": "^6.12.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "webcam": "^3.2.1",
     "xlsx": "^0.18.5",
     "zone.js": "~0.14.3"
   },

@@ -19,6 +19,11 @@ import { SkuAutoCompleteComponent } from './components/particals/sku-auto-comple
 import { ShopifyOrderSearchFiltersComponent } from './components/particals/shopify-order-search-filters/shopify-order-search-filters.component';
 import { ProductGroupingTableComponent } from './components/particals/product-grouping-table/product-grouping-table.component';
 import { ShortDatePipe } from './customPipes/short-date.pipe';
+import { ReturnsOrderSearchComponent } from './components/returnsTracker/returns-order-search/returns-order-search.component';
+import { ReturnsTrackerListComponent } from './components/returnsTracker/returns-tracker-list/returns-tracker-list.component';
+import { ShippingTrackerComponent } from './components/returnsTracker/shipping-tracker/shipping-tracker.component';
+import { RemoveTicketConfirmComponent } from './components/model-popup/remove-ticket-confirm/remove-ticket-confirm.component';
+import { WebcamModule } from 'ngx-webcam';
 
 @NgModule({
   declarations: [
@@ -36,7 +41,11 @@ import { ShortDatePipe } from './customPipes/short-date.pipe';
     SkuAutoCompleteComponent,
     ShopifyOrderSearchFiltersComponent,
     ProductGroupingTableComponent,
-    ShortDatePipe
+    ShortDatePipe,
+    ReturnsOrderSearchComponent,
+    ReturnsTrackerListComponent,
+    ShippingTrackerComponent,
+    RemoveTicketConfirmComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +53,7 @@ import { ShortDatePipe } from './customPipes/short-date.pipe';
     ReactiveFormsModule,
     AppRoutingModule,
     NgbModule,
+    WebcamModule
   ],
   providers: [
     provideClientHydration()
