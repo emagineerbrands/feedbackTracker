@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-
+import { DatePipe } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FeedbackTrackerComponent } from './components/feedback/feedback-tracker/feedback-tracker.component';
@@ -75,6 +75,7 @@ if (firebaseConfigString) {
     AngularFireAuthModule,
   ],
   providers: [
+    DatePipe,
     provideClientHydration(),
     provideHttpClient()
   ],
