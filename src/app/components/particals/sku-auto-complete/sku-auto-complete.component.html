@@ -1,0 +1,11 @@
+<div class="form-group">
+  <label [for]="id">{{ label }}:</label>
+  <input type="text" class="form-control" [id]="id" [placeholder]="placeholder"
+         [disabled]="disabled" [(ngModel)]="inputModel" (ngModelChange)="inputModelChange.emit($any($event))"
+         (keyup)="autosku($event)">
+  <small *ngIf="ShowSKUError" class="text-danger">* SKU is required.</small>
+  <button *ngIf="showSkuSuggestion" class="close-icon" (click)="clearSkuList()" type="button"></button>
+  <ul *ngIf="showSkuSuggestion" class="sku-ul-list mb-0">
+    <li *ngFor="let sku of filteredSkusList" (click)="selectedSku(sku)" class="colorSelect">{{ sku }}</li>
+  </ul>
+</div>
