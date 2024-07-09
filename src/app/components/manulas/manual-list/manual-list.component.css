@@ -1,0 +1,48 @@
+.outline {
+  max-height: 100vh;
+  overflow-y: auto;
+  border-right: 1px solid #ccc;
+  padding: 10px;
+}
+
+.outline ul {
+  list-style: none;
+  padding: 0;
+}
+
+.outline li {
+  margin-bottom: 5px;
+}
+
+.outline a {
+  cursor: pointer;
+  text-decoration: none;
+  color: #007bff;
+}
+
+.outline a:hover {
+  text-decoration: underline;
+}
+
+.document-content {
+  max-height: 100vh;
+  overflow-y: auto;
+}
+.loader-container {
+  position: absolute;
+  width: 100%;
+  height: 85vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.8); /* Optional: semi-transparent background */
+}
+
+.no-data-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85vh;
+  font-size: 20px;
+  color: #666;
+}

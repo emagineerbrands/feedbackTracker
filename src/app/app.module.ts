@@ -47,6 +47,14 @@ import { RemoveTicketConfirmComponent } from './components/model-popup/remove-ti
 import { WebcamModule } from 'ngx-webcam';
 import { UsersComponent } from './components/users/users.component';
 import { UserAddComponent } from './components/model-popup/user-add/user-add.component';
+import { AnchorTagViewHtmlRenderComponent } from './components/particals/manuals/anchor-tag-view-html-render-component/anchor-tag-view-html-render-component.component';
+import { ActionViewHtmlRenderComponent } from './components/particals/manuals/action-view-html-render/action-view-html-render.component';
+import { IconTagCompComponent } from './components/small-particals/icon-tag-comp/icon-tag-comp.component';
+import { AddManualComponent } from './components/model-popup/add-manual/add-manual.component';
+import { ManualListComponent } from './components/manulas/manual-list/manual-list.component';
+import { LoaderComponent } from './components/particals/loader/loader.component';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
+import { ManualDisplayComponent } from './components/manulas/manual-display/manual-display.component';
 
 export function initializeApp(myService: InternalService, feedbackService: FeedbackService ) {
   return () => {
@@ -104,6 +112,13 @@ if (firebaseConfigString) {
     RemoveTicketConfirmComponent,
     UsersComponent,
     UserAddComponent,
+    AnchorTagViewHtmlRenderComponent,
+    ActionViewHtmlRenderComponent,
+    IconTagCompComponent,
+    AddManualComponent,
+    ManualListComponent,
+    LoaderComponent,
+    ManualDisplayComponent,
   ],
   imports: [
     BrowserModule,
@@ -117,7 +132,8 @@ if (firebaseConfigString) {
     AngularFireModule.initializeApp(firebaseConfigJson),
     AngularFireAuthModule,
     AgGridModule,
-    WebcamModule
+    WebcamModule,
+    NgxDocViewerModule
   ],
   providers: [
     DatePipe,

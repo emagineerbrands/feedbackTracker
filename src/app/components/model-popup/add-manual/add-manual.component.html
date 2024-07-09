@@ -1,0 +1,32 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title">Add Manual</h4>
+    <button type="button" class="close" (click)="modal.dismiss('Close click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="manualForm" (ngSubmit)="onSave()">
+    <div class="card-body p-3">
+      <div class="form-group">
+        <label for="mName">Name: </label>
+        <input type="text" class="form-control" id="mName" formControlName="mName" placeholder="Enter Manual Name">
+        <div *ngIf="manualForm.controls['mName'].invalid && (manualForm.controls['mName'].dirty || manualForm.controls['mName'].touched)" class="text-danger">
+          Document Name is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="mDoc">Document: </label>
+        <input type="file" class="form-control" id="mDoc" (change)="onFileChange($event)">
+        <div *ngIf="manualForm.controls['mDoc'].errors?.['invalidFileType'] && (manualForm.controls['mDoc'].dirty || manualForm.controls['mDoc'].touched)" class="text-danger">
+          Only .doc and .docx files are allowed.
+        </div>
+      </div>
+    </div>
+    <!-- /.card-body -->
+    <div class="modal-footer justify-content-between">
+      <button type="button" class="btn btn-default" (click)="modal.close('Close click')">Close</button>
+      <button type="submit" class="btn btn-primary" [disabled]="manualForm.invalid">Save</button>
+    </div>
+  </form>
+</div>
+<!-- /.modal-content -->

@@ -80,6 +80,10 @@ export class InternalService {
   };
   paginationParamsExist:boolean = false;
 
+  logedInUser(){
+    return JSON.parse(localStorage.getItem('authDetails') || 'null');
+  }
+
   /**  Pagination Params For Feedback Tracker  End */
 
   async loadFirebaseAuthenticationConfig(){

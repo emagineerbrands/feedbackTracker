@@ -1,0 +1,2 @@
+<app-icon-tag-comp (click)="previewDoc(params.data.Id, params.data.FileId)" [className]="'handCursor fas fa-eye'"></app-icon-tag-comp>
+<app-icon-tag-comp (click)="deleteDoc(params.data)" *ngIf="this.authUser.role_id.includes(1) && this.authUser.role_value.includes('ADMIN')" [className]="'handCursor fas fa-trash ml-2'"></app-icon-tag-comp>

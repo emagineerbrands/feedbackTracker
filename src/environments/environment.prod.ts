@@ -9,4 +9,5 @@ export const environment = {
   ShopifyCustomerURL:`${shopifyBaseUrl}customers/`,
   WalmartURL:'https://seller.walmart.com/order-management/details?orderGroups=Shipped&poNumber=',
   AmazonURL:'https://sellercentral.amazon.com/orders-v3/order/',
+  GoogleDocBaseURL:'https://docs.google.com/document/d/',
 };

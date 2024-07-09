@@ -12,6 +12,8 @@ import { ReturnsOrderSearchComponent } from './components/returnsTracker/returns
 import { ReturnsTrackerListComponent } from './components/returnsTracker/returns-tracker-list/returns-tracker-list.component';
 import { ShippingTrackerComponent } from './components/returnsTracker/shipping-tracker/shipping-tracker.component';
 import { UsersComponent } from './components/users/users.component';
+import { ManualListComponent } from './components/manulas/manual-list/manual-list.component';
+import { ManualDisplayComponent } from './components/manulas/manual-display/manual-display.component';
 
 const routes: Routes = [
   {
@@ -79,6 +81,19 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { requiredPrivilege: ['ADMIN', 'FEEDBACK_TRACKER', 'TEAM_LEAD'] },
   },
+  /*{
+    path: 'user-manual',
+    component: ManualListComponent,
+    canActivate: [AuthGuard],
+    data: { requiredPrivilege: ['ADMIN', 'FEEDBACK_TRACKER', 'TEAM_LEAD'] },
+
+  },
+  {
+    path: 'preview-manual',
+    component: ManualDisplayComponent,
+    canActivate: [AuthGuard],
+    data: { requiredPrivilege: ['ADMIN'] },
+  } */
 ];
 
 @NgModule({

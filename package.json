@@ -36,6 +36,7 @@
     "jquery": "^3.7.1",
     "moment-timezone": "^0.5.45",
     "ng2-charts": "^6.0.1",
+    "ngx-doc-viewer": "^15.0.1",
     "ngx-image-compress": "^15.1.6",
     "ngx-toastr": "^19.0.0",
     "ngx-webcam": "^0.4.1",

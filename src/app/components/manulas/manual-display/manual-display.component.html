@@ -1,0 +1,21 @@
+<div class="content-wrapper">
+  <app-bread-crumbs [Title]="pageTitle" [list]="breadCrumbList"></app-bread-crumbs>
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div *ngIf="isLoading && googleDocId==''" class="loader-container">
+            <app-loader></app-loader>
+          </div>
+          <ngx-doc-viewer
+            [url]="googleDocBaseURL+googleDocId+viewType"
+            viewer="url"
+            style="width:100%;height:70vh;"
+            (load)="onDocLoad()"
+            ></ngx-doc-viewer>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+

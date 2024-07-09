@@ -1,0 +1,48 @@
+<div class="content-wrapper">
+  <app-bread-crumbs [Title]="pageTitle" [list]="breadCrumbList"></app-bread-crumbs>
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="float-right d-flex mb-2 mr-2 handCursor">
+                <!--<input type="file" class="form-control" id="uploadImgs" multiple name="uploadImg" accept=".doc, .docx"  style="display: none">-->
+                <button class="btn btn-sm btn-info" (click)="triggerFileInput()">Upload Manual</button>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <ag-grid-angular
+                class="ag-theme-quartz"
+                [domLayout]="'autoHeight'"
+                [gridOptions]="gridOptions"
+                [rowData]="rowData"
+                (gridReady)="onGridReady($event)">
+              </ag-grid-angular>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div *ngIf="!dataExist" class="no-data-message">
+            No Data Found
+          </div>
+
+          <div *ngIf="dataExist">
+            <div *ngIf="isLoading" class="loader-container">
+              <app-loader></app-loader>
+            </div>
+
+            <div #iframeContainer [hidden]="isLoading">
+              <ngx-doc-viewer
+                [url]="googleDocBaseURL + googleDocId + viewType"
+                viewer="url"
+                style="width:100%;height:85vh;"
+                (load)="onDocLoad()"
+              ></ngx-doc-viewer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </section>
+</div>

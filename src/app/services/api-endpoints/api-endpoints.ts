@@ -49,6 +49,12 @@ export const APIEndpoints = {
     engagementLevelsOfCallsReport: (params:string) => `${environment.feedbackTrackerUrl}EngagementLevelsOfCallsReport?${params}`,
     sKUBasedEngagementLevelsOfCallsReport: (params:string) => `${environment.feedbackTrackerUrl}SKUBasedEngagementLevelsOfCallsReport?${params}`,
     sKUBasedPickedUpCallsReport: (params:string) => `${environment.feedbackTrackerUrl}SKUBasedPickedUpCallsReport?${params}`,
+    userManuls:{
+      manuals: `${environment.feedbackTrackerUrl}UserManualDetails`,
+      deletemanual: `${environment.feedbackTrackerUrl}DeleteManual`,
+      getManual:(param:number) => `${environment.feedbackTrackerUrl}UserManualDetails/${param}`,
+      userManualPermission:(params:string) => `${environment.feedbackTrackerUrl}UserManualsPermissionForAdmin?${params}`
+    },
   },
   shopifyUrl:{
     base:`${environment.ShopifyUrl}`,

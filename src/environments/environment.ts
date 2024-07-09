@@ -12,6 +12,7 @@ export const environment = {
   ShopifyCustomerURL:'',
   WalmartURL:'',
   AmazonURL:'',
+  GoogleDocBaseURL:'https://docs.google.com/document/d/',
 };
 
 /*
