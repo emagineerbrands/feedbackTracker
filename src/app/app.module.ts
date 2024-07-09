@@ -40,6 +40,13 @@ import { CallLogsAnchorTagViewHtmlRenderComponent } from './components/particals
 import { CallLogsCustomDateFilterComponent } from './components/particals/call-logs-ag-grid-particals/call-logs-custom-date-filter/call-logs-custom-date-filter.component';
 import { AnchorTagCompComponent } from './components/small-particals/anchor-tag-comp/anchor-tag-comp.component';
 import { CallLogsTrackerComponent } from './components/wellcome-call-logs/call-logs-tracker/call-logs-tracker.component';
+import { ReturnsOrderSearchComponent } from './components/returnsTracker/returns-order-search/returns-order-search.component';
+import { ReturnsTrackerListComponent } from './components/returnsTracker/returns-tracker-list/returns-tracker-list.component';
+import { ShippingTrackerComponent } from './components/returnsTracker/shipping-tracker/shipping-tracker.component';
+import { RemoveTicketConfirmComponent } from './components/model-popup/remove-ticket-confirm/remove-ticket-confirm.component';
+import { WebcamModule } from 'ngx-webcam';
+import { UsersComponent } from './components/users/users.component';
+import { UserAddComponent } from './components/model-popup/user-add/user-add.component';
 
 export function initializeApp(myService: InternalService, feedbackService: FeedbackService ) {
   return () => {
@@ -59,6 +66,7 @@ if (firebaseConfigString) {
 } else {
   console.error('Firebase config not found in local storage.');
 }
+
 
 @NgModule({
   declarations: [
@@ -90,6 +98,12 @@ if (firebaseConfigString) {
     CallLogsCustomDateFilterComponent,
     AnchorTagCompComponent,
     CallLogsTrackerComponent,
+    ReturnsOrderSearchComponent,
+    ReturnsTrackerListComponent,
+    ShippingTrackerComponent,
+    RemoveTicketConfirmComponent,
+    UsersComponent,
+    UserAddComponent,
   ],
   imports: [
     BrowserModule,
@@ -103,6 +117,7 @@ if (firebaseConfigString) {
     AngularFireModule.initializeApp(firebaseConfigJson),
     AngularFireAuthModule,
     AgGridModule,
+    WebcamModule
   ],
   providers: [
     DatePipe,

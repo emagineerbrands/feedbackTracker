@@ -1,6 +1,4 @@
-import { RetrunsSkuGroup } from "./returnsSkuGroup.interface";
-
-
+import { RetrunsSkuGroup } from "./returnsSKUGroup.interface";
 
 export class Returns {
   public id: number;

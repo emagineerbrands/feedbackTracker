@@ -1,0 +1,88 @@
+<div class="content-wrapper">
+
+  <app-bread-crumbs [Title]="pageTitle" [list]="breadCrumbList"></app-bread-crumbs>
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header bg-white">
+              <div class="card-title d-flex Orderfilter">
+                <div class="form-group mb-0 marginLeft10">
+                  <input type="text" class="form-control" [(ngModel)]="orderNumber" placeholder="Order Number" (keyup.enter)="searchOrders()"  >
+
+                </div>
+                <div class="ml-2">
+                  <button class="btn button-blue marginLeft10" (click)="searchOrders()">Search</button>
+                </div>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-1">
+              <ng-container *ngIf="orderData">
+              <div class="card" *ngFor="let order of orderData; let orderIndex = index;"  >
+                <a class="d-block w-100" >
+                  <div class="card-header">
+                    <h4 class="card-title w-100 groupTableBody">
+                      <div class="serialNumber">
+                        <div class="card-tools">
+                          <a data-toggle="collapse" href="#collapseOne{{ orderIndex }}" data-card-widget="collapse">
+                            <img class="btn dropdownIcon"  src="assets/dist/img/icons/down-arrow.png">
+                          </a>
+                        </div>
+                      </div>
+                      <div class="productGDesc"><div class="float-left"><span class="orderNumber"><b># Order - Number :</b> {{ order.orderNumber }}</span>  <span class="custName"> <b> Customer Name :</b> {{ order.billTo.name }}</span></div><code class="direct-chat-timestamp float-right">{{ order.createDate | formatDate:'shortDate' }}</code></div>
+                      <div class="groupAction" ngbTooltip="Full Order">
+                        <button type="button" (click)="shipingTracker(order.orderId)" class="buttonIcon"><img class="editIcon" title="Full Order"  src="assets/dist/img/icons/editfull.png"></button>
+                      </div>
+                    </h4>
+                  </div>
+                </a>
+                <div id="collapseOne{{ orderIndex }}" class="collapse show"  data-parent="#accordion">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover ">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th class="th-color noWordWrap">Item Description</th>
+                          <th class="th-color noWordWrap">SKU Original</th>
+                          <th class="th-color">Quantity</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let lineItem of order.items">
+                          <td class="colorSelect">
+                            <input type="checkbox" (click)="selectlineItem($event, lineItem, order.orderId)" value="{{lineItem.orderItemId}}" >
+                          </td>
+                          <td class="colorSelect noWordWrap">{{lineItem.name}}</td>
+                          <td class="colorSelect noWordWrap">{{lineItem.sku}}</td>
+                          <td class="colorSelect">{{lineItem.quantity}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                </div>
+              </div>
+            </ng-container>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+
+      <!-- /.row -->
+
+      <!-- /.row -->
+
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
