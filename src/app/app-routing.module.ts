@@ -81,7 +81,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { requiredPrivilege: ['ADMIN', 'FEEDBACK_TRACKER', 'TEAM_LEAD'] },
   },
-  /*{
+  {
     path: 'user-manual',
     component: ManualListComponent,
     canActivate: [AuthGuard],
@@ -93,7 +93,7 @@ const routes: Routes = [
     component: ManualDisplayComponent,
     canActivate: [AuthGuard],
     data: { requiredPrivilege: ['ADMIN'] },
-  } */
+  }
 ];
 
 @NgModule({
