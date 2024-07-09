@@ -25,6 +25,21 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { InternalService } from './services/internal-service/internal.service';
 import { FeedbackService } from './services/feedback-service/feedback.service';
+import { HomePageComponent } from './components/home-page/home-page.component';
+import { SmallBoxComponent } from './components/particals/small-box/small-box.component';
+import { CardChartHeaderComponent } from './components/particals/card-chart-header/card-chart-header.component';
+import { ChartTableComponent } from './components/particals/chart-table/chart-table.component';
+import { BasicTableComponent } from './components/particals/basic-table/basic-table.component';
+import { BaseChartDirective } from 'ng2-charts';
+import { CallLogsComponent } from './components/wellcome-call-logs/call-logs/call-logs.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { CallLogsDashboardComponent } from './components/wellcome-call-logs/call-logs-dashboard/call-logs-dashboard.component';
+import { SelectTagCompComponent } from './components/small-particals/select-tag-comp/select-tag-comp.component';
+import { CallLogsSelectFilterComponent } from './components/particals/call-logs-ag-grid-particals/call-logs-select-filter/call-logs-select-filter.component';
+import { CallLogsAnchorTagViewHtmlRenderComponent } from './components/particals/call-logs-ag-grid-particals/call-logs-anchor-tag-view-html-render/call-logs-anchor-tag-view-html-render.component';
+import { CallLogsCustomDateFilterComponent } from './components/particals/call-logs-ag-grid-particals/call-logs-custom-date-filter/call-logs-custom-date-filter.component';
+import { AnchorTagCompComponent } from './components/small-particals/anchor-tag-comp/anchor-tag-comp.component';
+import { CallLogsTrackerComponent } from './components/wellcome-call-logs/call-logs-tracker/call-logs-tracker.component';
 
 export function initializeApp(myService: InternalService, feedbackService: FeedbackService ) {
   return () => {
@@ -48,6 +63,11 @@ if (firebaseConfigString) {
 @NgModule({
   declarations: [
     AppComponent,
+    HomePageComponent,
+    SmallBoxComponent,
+    CardChartHeaderComponent,
+    ChartTableComponent,
+    BasicTableComponent,
     FeedbackListComponent,
     FeedbackTrackerComponent,
     FeedbackFiltersComponent,
@@ -61,7 +81,15 @@ if (firebaseConfigString) {
     SkuAutoCompleteComponent,
     ShopifyOrderSearchFiltersComponent,
     ProductGroupingTableComponent,
-    ShortDatePipe
+    ShortDatePipe,
+    CallLogsComponent,
+    CallLogsDashboardComponent,
+    SelectTagCompComponent,
+    CallLogsSelectFilterComponent,
+    CallLogsAnchorTagViewHtmlRenderComponent,
+    CallLogsCustomDateFilterComponent,
+    AnchorTagCompComponent,
+    CallLogsTrackerComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,9 +98,11 @@ if (firebaseConfigString) {
     AppRoutingModule,
     NgbModule,
     AppRoutingModule,
+    BaseChartDirective,
     ToastrModule.forRoot(),
     AngularFireModule.initializeApp(firebaseConfigJson),
     AngularFireAuthModule,
+    AgGridModule,
   ],
   providers: [
     DatePipe,

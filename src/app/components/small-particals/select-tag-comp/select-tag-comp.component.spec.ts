@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BreadCrumbsComponent } from './bread-crumbs.component';
+import { SelectTagCompComponent } from './select-tag-comp.component';
 
-describe('BreadCrumbsComponent', () => {
-  let component: BreadCrumbsComponent;
-  let fixture: ComponentFixture<BreadCrumbsComponent>;
+describe('SelectTagCompComponent', () => {
+  let component: SelectTagCompComponent;
+  let fixture: ComponentFixture<SelectTagCompComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BreadCrumbsComponent]
+      imports: [SelectTagCompComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(BreadCrumbsComponent);
+    fixture = TestBed.createComponent(SelectTagCompComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

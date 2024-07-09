@@ -373,7 +373,7 @@ export class InternalService {
 
   //Call-Logs Filters Custum Logic
 
-  public fieldMappings = {
+  public fieldMappings:any = {
     'pickUp': {
         dataSource: 'CallsPickedUp',
         nameKey: 'Picked_up',
@@ -402,7 +402,7 @@ export class InternalService {
       value: 0
   };
 
-  public fieldFilterMappings = {
+  public fieldFilterMappings:any = {
     pickUp: {
         dataProperty: 'PickUpName',
         getFilterName: (selectedValue: any) => this.getNameFromPickup(selectedValue),

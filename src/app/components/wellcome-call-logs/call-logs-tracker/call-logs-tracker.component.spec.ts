@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BreadCrumbsComponent } from './bread-crumbs.component';
+import { CallLogsTrackerComponent } from './call-logs-tracker.component';
 
-describe('BreadCrumbsComponent', () => {
-  let component: BreadCrumbsComponent;
-  let fixture: ComponentFixture<BreadCrumbsComponent>;
+describe('CallLogsTrackerComponent', () => {
+  let component: CallLogsTrackerComponent;
+  let fixture: ComponentFixture<CallLogsTrackerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BreadCrumbsComponent]
+      imports: [CallLogsTrackerComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(BreadCrumbsComponent);
+    fixture = TestBed.createComponent(CallLogsTrackerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
