@@ -46,3 +46,13 @@
   font-size: 20px;
   color: #666;
 }
+.manualListGrid .ag-paging-panel .ag-paging-row-summary-panel,
+  .manualListGrid .ag-paging-panel .ag-paging-page-summary-panel .ag-paging-description {
+    display: none !important;
+  }
+@media (max-width: 1440) {
+  .manualListGrid .ag-paging-panel .ag-paging-row-summary-panel,
+  .manualListGrid .ag-paging-panel .ag-paging-page-summary-panel .ag-paging-description {
+    display: none !important;
+  }
+}

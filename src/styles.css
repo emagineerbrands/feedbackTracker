@@ -255,3 +255,11 @@ ngb-modal-backdrop {
 .ag-menu{
   overflow-y: unset !important;
 }
+
+@media (max-width: 1440px) {
+  .manualListGrid .ag-paging-panel .ag-paging-row-summary-panel,
+  .manualListGrid .ag-paging-panel .ag-paging-page-summary-panel .ag-paging-description {
+    display: none !important;
+  }
+}
+

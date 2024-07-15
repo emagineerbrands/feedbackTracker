@@ -68,3 +68,14 @@
 .google-btn:active {
   background: #1669F2;
 }
+
+.manualListGrid .ag-paging-panel .ag-paging-row-summary-panel,
+  .manualListGrid .ag-paging-panel .ag-paging-page-summary-panel .ag-paging-description {
+    display: none !important;
+  }
+@media (max-width: 1440) {
+  .manualListGrid .ag-paging-panel .ag-paging-row-summary-panel,
+  .manualListGrid .ag-paging-panel .ag-paging-page-summary-panel .ag-paging-description {
+    display: none !important;
+  }
+}

@@ -198,10 +198,11 @@ export class ShopifyOrderSearchComponent implements OnInit, OnDestroy{
   }
 
   async searchBasedonPagination(pageInfo: any){
-    this.orderSearchLoader = true;
+    //console.log("PageInfo", pageInfo);
     if(pageInfo == ''){
       return;
     }
+    this.orderSearchLoader = true;
     this.searchParams.CurrentPage = pageInfo;
     await this.feedbackService.getOrdersByPagination(pageInfo, this.searchParams.PageRecords)
     .subscribe({
@@ -262,7 +263,6 @@ export class ShopifyOrderSearchComponent implements OnInit, OnDestroy{
     this.searchParams.NextURL = '';
     this.searchParams.PreviousURL = '';
     this.searchParams.CurrentPage = '';
-    this.searchParams.OrdersType = 'desc';
   }
 
   assignValuesFromGetOrders(data:any){
@@ -283,8 +283,10 @@ export class ShopifyOrderSearchComponent implements OnInit, OnDestroy{
     }else{
       this.searchParams.PreviousURL = '';
     }
-
-    this.searchParams.OrdersCount = 1;
+    if(this.searchParams.SearchType === "order"){
+      this.searchParams.OrdersCount = 1;
+    }
+    //this.searchParams.OrdersCount = 1;
     this.assignValuesToQueryParams(this.searchParams);
   }
 
@@ -324,7 +326,7 @@ export class ShopifyOrderSearchComponent implements OnInit, OnDestroy{
     await this.feedbackService.getOrdersCount(params)
     .subscribe({
       next: (data:any) => {
-        this.searchParams.OrdersCount = data;
+        this.searchParams.OrdersCount = Number(data);
       },
       error: (error) => {
         console.log('Here is an error: '+ error);
@@ -416,8 +418,10 @@ export class ShopifyOrderSearchComponent implements OnInit, OnDestroy{
 
 
   sortOrders(sortBy: string) {
+    console.log("sortBy", sortBy == "asc");
     this.orderSearchLoader = true;
-    sortBy === "asc" ? this.searchParams.OrdersType = "asc" : this.searchParams.OrdersType = "desc";
+    this.searchParams.OrdersType = (sortBy == "asc") ? "asc" : "desc";
+    console.log("sortBy", this.searchParams.OrdersType);
     if(this.searchParams.SearchType === 'email'){
       this.getOrders(this.searchParams);
       this.getOrdersCount(this.searchParams.SearchValue);

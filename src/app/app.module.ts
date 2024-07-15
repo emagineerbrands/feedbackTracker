@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
@@ -55,6 +55,7 @@ import { ManualListComponent } from './components/manulas/manual-list/manual-lis
 import { LoaderComponent } from './components/particals/loader/loader.component';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
 import { ManualDisplayComponent } from './components/manulas/manual-display/manual-display.component';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 export function initializeApp(myService: InternalService, feedbackService: FeedbackService ) {
   return () => {
@@ -137,6 +138,15 @@ if (firebaseConfigString) {
   ],
   providers: [
     DatePipe,
+    NgxImageCompressService,
+    { provide: BaseChartDirective, useValue: { generateColors: false }},
+    InternalService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [InternalService, FeedbackService],
+      multi: true,
+    },
     provideClientHydration(),
     provideHttpClient()
   ],

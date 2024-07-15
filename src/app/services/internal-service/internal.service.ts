@@ -59,6 +59,8 @@ export class InternalService {
     private feedbackService:FeedbackService
   ) {
     this.getUserDetails();
+    //this.loadStaticData();
+    //this.allUsers();
   }
 
   //Feedback Data After Form Submission Return To Feedback List Page
