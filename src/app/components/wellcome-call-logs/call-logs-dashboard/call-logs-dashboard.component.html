@@ -69,7 +69,7 @@
             <div class="card-body p-0">
               <div class="tab-content p-0">
                 <div class="chart tab-pane active p-3" id="engagement_calls_per_product-chart">
-                  <div class="row" *ngIf="engagementProductTypeData; else noDataTemplate">
+                  <div class="row" *ngIf="(engagementProductTypeData && engagementProductTypeData.length > 0); else noDataTemplate">
                     <div class="col-md-6">
                       <select class="form-control" [(ngModel)]="engagementCallsPerProductSelect" >
                         <option *ngFor="let productType of engagementProductTypeData; let i = index" [value]="i">
