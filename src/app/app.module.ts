@@ -9,7 +9,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationCheckComponent } from './components/model-popup/confirmation-check/confirmation-check.component';
 import { ImagesRemoveCheckComponent } from './components/model-popup/images-remove-check/images-remove-check.component';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FeedbackListComponent } from './components/feedback/feedback-list/feedback-list.component';
 import { FeedbackFiltersComponent } from './components/particals/feedback-filters/feedback-filters.component';
 import { DateRangePickerComponent } from './components/particals/date-range-picker/date-range-picker.component';
 import { PaginationComponent } from './components/particals/pagination/pagination.component';
@@ -56,6 +55,9 @@ import { LoaderComponent } from './components/particals/loader/loader.component'
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
 import { ManualDisplayComponent } from './components/manulas/manual-display/manual-display.component';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { UsersStatusHtmlTableRenderComponent } from './components/particals/users-ag-grid-particals/users-status-html-table-render/users-status-html-table-render.component';
+import { FeedbackListComponent } from './components/feedback/feedback-list/feedback-list.component';
+import { UsersRolesListTableCellRenderComponent } from './components/particals/users-ag-grid-particals/users-roles-list-table-cell-render/users-roles-list-table-cell-render.component';
 
 export function initializeApp(myService: InternalService, feedbackService: FeedbackService ) {
   return () => {
@@ -120,6 +122,8 @@ if (firebaseConfigString) {
     ManualListComponent,
     LoaderComponent,
     ManualDisplayComponent,
+    UsersStatusHtmlTableRenderComponent,
+    UsersRolesListTableCellRenderComponent,
   ],
   imports: [
     BrowserModule,

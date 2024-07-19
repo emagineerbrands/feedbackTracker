@@ -31,7 +31,6 @@ export class FeedbackFiltersComponent implements OnInit{
 
   ngOnInit(): void {
     this.getALlUsers();
-    console.log('Dropdown Data', this.internalService.dropdownData);
   }
 
   dateRangePicker(event:any){
