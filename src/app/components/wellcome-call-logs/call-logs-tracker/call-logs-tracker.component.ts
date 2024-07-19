@@ -10,6 +10,7 @@ import { InternalService } from '../../../services/internal-service/internal.ser
 import { WelcomeCallLogService } from '../../../services/welcome-call-log-service/welcome-call-log.service';
 import { ToastNotificationsService } from '../../../services/toast-notification-service/toast-notifications.service';
 import { TimeZoneService } from '../../../services/time-zone-service/time-zone.service';
+import { environment } from '../../../../environments/environment';
 declare var $: any; // Declare jQuery
 
 @Component({
@@ -149,8 +150,8 @@ export class CallLogsTrackerComponent implements OnInit, AfterViewInit, OnDestro
     this.callLogs.Email = data.json_data.shopify_order_json.customer.email;
     const customerId = data.json_data.shopify_order_json.customer.id;
     const orderUniqId = data.json_data.shopify_order_json.id;
-    this.callLogs.ShopifyCustomerLink = 'https://admin.shopify.com/store/honest-ppe-supply/customers/'+customerId;
-    this.callLogs.ShopifyOrderLink = 'https://admin.shopify.com/store/honest-ppe-supply/orders/'+orderUniqId;
+    this.callLogs.ShopifyCustomerLink = `${environment.ShopifyCustomerURL}${customerId}`;
+    this.callLogs.ShopifyOrderLink = `${environment.ShopifyOrderURL}${orderUniqId}`;
     this.callLogs.Phone = data.json_data.shopify_order_json.shipping_address?.phone;
     const addressObj = data.json_data.shopify_order_json.shipping_address;
 
