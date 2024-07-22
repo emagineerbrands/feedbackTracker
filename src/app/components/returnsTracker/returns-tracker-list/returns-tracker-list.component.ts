@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgbDateStruct, NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import * as qs from 'qs'
+import queryString from 'query-string';
 //import { stringify } from 'querystring';
 import { DataExportService } from '../../../services/data-export-service/data-export.service';
 import { DateConvertService } from '../../../services/date-convert-service/date-convert.service';
@@ -134,7 +134,11 @@ export class ReturnsTrackerListComponent {
         });
       });
       if(this.internalService.returnsDetails && this.internalService.returnsDetails.id == '0'){
-        data.unshift(this.updateDataAfterSubmit(qs.stringify(parseInt(data[0].latest_ticket_id) + 1), parseInt(data[0].order_count)+1));
+        //data.unshift(this.updateDataAfterSubmit(qs.stringify(parseInt(data[0].latest_ticket_id) + 1), parseInt(data[0].order_count)+1));
+        const newTicketId = (parseInt(data[0].latest_ticket_id) + 1).toString();
+        const newOrderCount = (parseInt(data[0].order_count) + 1);
+
+        data.unshift(this.updateDataAfterSubmit(newTicketId, newOrderCount));
         this.internalService.returnsDetails = null;
       }
       this.ticketsList = this.temporaryTickets = data;

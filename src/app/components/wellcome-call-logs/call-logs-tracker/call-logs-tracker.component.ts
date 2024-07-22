@@ -4,7 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import moment from 'moment-timezone';
+import { format, parseISO } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import { CallLogs } from '../../../interface/CallLogs';
 import { InternalService } from '../../../services/internal-service/internal.service';
 import { WelcomeCallLogService } from '../../../services/welcome-call-log-service/welcome-call-log.service';
@@ -118,11 +119,14 @@ export class CallLogsTrackerComponent implements OnInit, AfterViewInit, OnDestro
     });
   }
 
+
+
   updateCustomerTime(countryCode: string, provinceCode: string): void {
     const timezone = this.timeZone.getTimeZone(countryCode, provinceCode);
     if (timezone) {
       this.intervalId = window.setInterval(() => {
-        this.customerTime = moment().tz(timezone).format('MM-DD-YYYY hh:mm:ss A');
+        const now = new Date();
+        this.customerTime = formatInTimeZone(now, timezone, 'MM-dd-yyyy hh:mm:ss a');
       }, 1000);
       // Format the live time in the given timezone with AM/PM
 
