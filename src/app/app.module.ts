@@ -56,8 +56,9 @@ import { NgxDocViewerModule } from 'ngx-doc-viewer';
 import { ManualDisplayComponent } from './components/manulas/manual-display/manual-display.component';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { UsersStatusHtmlTableRenderComponent } from './components/particals/users-ag-grid-particals/users-status-html-table-render/users-status-html-table-render.component';
-import { FeedbackListComponent } from './components/feedback/feedback-list/feedback-list.component';
+import { ExpandCellRendererComponent, FeedbackListComponent } from './components/feedback/feedback-list/feedback-list.component';
 import { UsersRolesListTableCellRenderComponent } from './components/particals/users-ag-grid-particals/users-roles-list-table-cell-render/users-roles-list-table-cell-render.component';
+import { ExpandableRowRendererComponent } from './components/particals/order-issue-ag-grid-particals/expandable-row-renderer/expandable-row-renderer.component';
 
 export function initializeApp(myService: InternalService, feedbackService: FeedbackService ) {
   return () => {
@@ -124,6 +125,8 @@ if (firebaseConfigString) {
     ManualDisplayComponent,
     UsersStatusHtmlTableRenderComponent,
     UsersRolesListTableCellRenderComponent,
+    ExpandCellRendererComponent,
+    ExpandableRowRendererComponent
   ],
   imports: [
     BrowserModule,
@@ -136,7 +139,7 @@ if (firebaseConfigString) {
     ToastrModule.forRoot(),
     AngularFireModule.initializeApp(firebaseConfigJson),
     AngularFireAuthModule,
-    AgGridModule,
+    AgGridModule.withComponents([ExpandableRowRendererComponent]),
     WebcamModule,
     NgxDocViewerModule
   ],

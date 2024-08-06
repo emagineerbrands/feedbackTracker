@@ -4,7 +4,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <app-feedback-filters (filterOptions)="filterData($event)"></app-feedback-filters>
+          <!--<app-feedback-filters (filterOptions)="filterData($event)"></app-feedback-filters>-->
         </div>
       </div>
       <div class="row">
@@ -20,7 +20,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body p-0 responsiveFeedbackTableBody">
-              <ng-container *ngIf="loader">
+              <!--<ng-container *ngIf="loader">
                 <div class="overlay">
                   <img class="fas fa-3x fa-sync-alt fa-spin LoadIcon" src="assets/dist/img/icons/loader-Icon.png" >
 
@@ -102,11 +102,23 @@
                   </ng-container>
 
                 </tbody>
-              </table>
+              </table>-->
+              <ag-grid-angular
+                class="ag-theme-quartz"
+                [domLayout]="'autoHeight'"
+                [gridOptions]="gridOptions"
+                [rowData]="rowData"
+                [components]="frameworkComponents"
+                [suppressRowClickSelection]="false"
+                [pagination]="true"
+                [overlayLoadingTemplate]="loadingOverlayComponent"
+                [overlayNoRowsTemplate]="noRowsTemplate"
+                (gridReady)="onGridReady($event)">
+              </ag-grid-angular>
             </div>
             <!-- /.card-body -->
             <div class="card-footer clearfix">
-              <app-pagination [paginationInfo]="pagination" (pageChange)="pageChangeInfo($event)"></app-pagination>
+              <!--<app-pagination [paginationInfo]="pagination" (pageChange)="pageChangeInfo($event)"></app-pagination>-->
             </div>
           </div>
         </div>

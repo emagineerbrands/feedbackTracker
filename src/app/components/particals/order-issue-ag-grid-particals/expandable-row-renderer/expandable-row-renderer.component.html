@@ -1,0 +1,6 @@
+<!--<app-icon-tag-comp *ngIf="hasChildren" [className]="'fas fa-angle-down'" (click)="toggleExpansion()"></app-icon-tag-comp>-->
+<app-expandable-row-renderer
+    *ngIf="rowData"
+    [rowData]="rowData"
+    (toggle)="toggleExpansion()">
+</app-expandable-row-renderer>
