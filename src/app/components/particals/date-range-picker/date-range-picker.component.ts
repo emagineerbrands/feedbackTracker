@@ -13,7 +13,7 @@ export class DateRangePickerComponent implements OnInit{
 
   @Output() DateRangePicker = new EventEmitter<any>();
 
-  constructor(private config: NgbDatepickerConfig, private cdr: ChangeDetectorRef) {
+  constructor(private config: NgbDatepickerConfig) {
     //this.dateConfig();
   }
 
